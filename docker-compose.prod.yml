@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+
+
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+
+    links:
+      - db
+    volumes:
+      - ./data/logs/:/var/logs
+    container_name: nodejs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:3000/app/version || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - PG_HOST=db
+      - NODE_LOG_FILE_PATH=/var/logs/gleec-connect/1111_____log.txt
+    ports:
+      - "3000:3000"
+
+
+  db:
+    image: postgres:11
+    container_name: db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=gleec-connect
+    volumes:
+      - ./data/db/:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
