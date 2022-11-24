@@ -4,17 +4,17 @@ import { Logger, LoggerService, ValidationPipe } from '@nestjs/common';
 import { NODE_ENV, PORT } from './environment';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 
 async function bootstrap(): Promise<void> {
   const port = PORT;
   const logger = createLogger();
 
   const app = await NestFactory.create(AppModule, {
-    logger,
     cors: true,
   });
-  app.use(helmet());
+  // helmet cause an error with gql playground
+  // app.use(helmet());
 
   app.useGlobalPipes(
     new ValidationPipe({

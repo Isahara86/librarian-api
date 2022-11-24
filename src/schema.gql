@@ -1,0 +1,16 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""customer """
+type Customer {
+  id: Int!
+  email: String
+
+  """Customer nick name"""
+  name: String!
+}
+
+type Query {
+  customers: [Customer!]!
+}
