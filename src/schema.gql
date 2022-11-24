@@ -11,8 +11,22 @@ type Customer {
   name: String!
 }
 
+type AdminLoginResponse {
+  name: String!
+  token: String!
+}
+
 type Query {
   whoAmI: Customer!
   customers: [Customer!]!
   whoAmIAdmin: Customer!
+}
+
+type Mutation {
+  adminLogin(input: AdminLoginInput!): AdminLoginResponse!
+}
+
+input AdminLoginInput {
+  login: String!
+  password: String!
 }

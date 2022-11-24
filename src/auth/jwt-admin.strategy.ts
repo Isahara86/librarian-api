@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import { JWT_ADMIN_SECRET } from '../environment';
 import { ContextAdminDto } from './dto/context-admin.dto';
-import { AuthService } from './auth.service';
 import { AdminService } from '../user/admin.service';
 
 @Injectable()

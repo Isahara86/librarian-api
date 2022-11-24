@@ -44,10 +44,7 @@ function createLogger(): LoggerService {
   const logger = WinstonModule.createLogger({
     transports: new winston.transports.Console(),
     // format: customFormatter,
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json(),
-    ),
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   });
 
   const originalLoggerMethod = logger.error.bind(logger);

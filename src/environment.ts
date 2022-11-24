@@ -19,3 +19,5 @@ export const IMAGE_DISTRIBUTION_DOMAIN = process.env.IMAGE_DISTRIBUTION_DOMAIN;
 
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_SECRET;
+
+export const PASSWORD_SALT = process.env.PASSWORD_SALT;
