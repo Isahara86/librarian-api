@@ -3,8 +3,6 @@ import { CustomerService } from '../user/customer.service';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_ADMIN_SECRET } from '../environment';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
-import { ContextAdminDto } from './dto/context-admin.dto';
-import { ContextCustomerDto } from './dto/context-customer.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,22 +32,22 @@ export class AuthService {
     };
   }
 
-  async adminLogin(user: any): Promise<{ token: string }> {
-    await this.validateOtp({ phone, otp });
-
-    const admin = await this.identityAdminService.findAdmin({ phone });
-    await this.identityAdminService.updateOtp({
-      userId: admin.id,
-      otp: null,
-      otpExpiresAt: null,
-    });
-
-    const payload: JwtPayloadDto = { name: admin.name, sub: admin.id };
-    return {
-      token: await this.jwtService.signAsync(payload, {
-        secret: JWT_ADMIN_SECRET,
-      }),
-    };
-  }
+  // async adminLogin(user: any): Promise<{ token: string }> {
+  //   await this.validateOtp({ phone, otp });
+  //
+  //   const admin = await this.identityAdminService.findAdmin({ phone });
+  //   await this.identityAdminService.updateOtp({
+  //     userId: admin.id,
+  //     otp: null,
+  //     otpExpiresAt: null,
+  //   });
+  //
+  //   const payload: JwtPayloadDto = { name: admin.name, sub: admin.id };
+  //   return {
+  //     token: await this.jwtService.signAsync(payload, {
+  //       secret: JWT_ADMIN_SECRET,
+  //     }),
+  //   };
+  // }
 
 }

@@ -26,6 +26,6 @@ const globalModules = [FileModule, UserModule, AuthModule];
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
-  exports: [...globalModules],
+  exports: [...globalModules, PrismaService],
 })
 export class AppModule {}
