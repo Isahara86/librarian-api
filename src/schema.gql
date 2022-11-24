@@ -12,5 +12,6 @@ type Customer {
 }
 
 type Query {
+  whoAmI: Customer!
   customers: [Customer!]!
 }

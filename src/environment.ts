@@ -16,3 +16,6 @@ export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 export const S3_BUCKET_REGION = process.env.S3_BUCKET_REGION;
 export const IMAGE_S3_BUCKET_NAME = process.env.IMAGE_S3_BUCKET_NAME;
 export const IMAGE_DISTRIBUTION_DOMAIN = process.env.IMAGE_DISTRIBUTION_DOMAIN;
+
+export const JWT_SECRET = process.env.JWT_SECRET;
+export const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_SECRET;
