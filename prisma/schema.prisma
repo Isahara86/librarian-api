@@ -28,17 +28,28 @@ model Admin {
 model Book {
   id              Int             @id @default(autoincrement())
   name            String
-  authorId        Int
-  author          Author          @relation(fields: [authorId], references: [id])
   previewUrl      String?
   bookInventories BookInventory[]
   BookCategory    BookCategory[]
+  Author          Author?         @relation(fields: [authorId], references: [id])
+  authorId        Int?
+  BookAuthor      BookAuthor[]
 }
 
 model Author {
-  id    Int    @id @default(autoincrement())
-  name  String
-  books Book[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  books      Book[]
+  BookAuthor BookAuthor[]
+}
+
+model BookAuthor {
+  bookId   Int
+  book     Book   @relation(fields: [bookId], references: [id])
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
+
+  @@unique([bookId, authorId])
 }
 
 model BookInventory {
