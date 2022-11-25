@@ -14,7 +14,7 @@ export class AdminService {
     return this.db.admin.findFirst({ where: { login } });
   }
 
-  async create(dto: Prisma.AdminCreateInput): Promise<void> {
-    await this.db.admin.create({ data: dto });
+  async create(data: Prisma.AdminCreateInput): Promise<void> {
+    await this.db.admin.create({ data });
   }
 }

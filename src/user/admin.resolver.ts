@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Customer } from './models/customer.model';
-import { UseGuards, ValidationPipe } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { GqlCurUser } from '../auth/gql-cur-user.param.decorator';
 import { Admin } from './models/admin.model';
 import { AdminLoginResponse } from './models/admin-login-response.model';
