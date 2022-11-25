@@ -1,16 +1,17 @@
 import { Global, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UserModule } from './user/user.module';
-import { FileModule } from './file/file.module';
+import { UserModule } from './modules/user/user.module';
+import { FileModule } from './modules/file/file.module';
 import { join } from 'path';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { BookModule } from './modules/book/book.module';
 // import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { AuthModule } from './auth/auth.module';
+import { ApiModule } from './api/api.module';
 
-const globalModules = [FileModule, UserModule, AuthModule];
+const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule];
 
 @Global()
 @Module({
@@ -24,8 +25,7 @@ const globalModules = [FileModule, UserModule, AuthModule];
     }),
     ...globalModules,
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
-  exports: [...globalModules, PrismaService],
+  providers: [PrismaService, AppService],
+  exports: [...globalModules, PrismaService, AppService],
 })
 export class AppModule {}

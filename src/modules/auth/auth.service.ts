@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CustomerService } from '../user/customer.service';
 import { JwtService } from '@nestjs/jwt';
-import { JWT_ADMIN_SECRET, PASSWORD_SALT } from '../environment';
+import { JWT_ADMIN_SECRET, PASSWORD_SALT } from '../../environment';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
 import { AdminLoginInput } from './dto/admin-login.input';
 import { AdminService } from '../user/admin.service';

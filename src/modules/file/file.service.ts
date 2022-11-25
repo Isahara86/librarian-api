@@ -6,7 +6,7 @@ import {
   IMAGE_DISTRIBUTION_DOMAIN,
   IMAGE_S3_BUCKET_NAME,
   S3_BUCKET_REGION,
-} from '../environment';
+} from '../../environment';
 import * as mimeDB from 'mime-db';
 import * as uuid from 'uuid';
 

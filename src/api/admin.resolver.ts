@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Customer } from './models/customer.model';
+import { Customer } from '../modules/user/models/customer.model';
 import { UseGuards } from '@nestjs/common';
-import { GqlCurUser } from '../auth/gql-cur-user.param.decorator';
-import { Admin } from './models/admin.model';
-import { AdminLoginResponse } from './models/admin-login-response.model';
-import { AuthService } from '../auth/auth.service';
-import { GqlAdminAuthGuard } from '../auth/gql-admin-auth.guard';
-import { AdminLoginInput } from '../auth/dto/admin-login.input';
+import { GqlCurUser } from '../modules/auth/gql-cur-user.param.decorator';
+import { Admin } from '../modules/user/models/admin.model';
+import { AdminLoginResponse } from '../modules/user/models/admin-login-response.model';
+import { AuthService } from '../modules/auth/auth.service';
+import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
+import { AdminLoginInput } from '../modules/auth/dto/admin-login.input';
 
 @Resolver(of => Admin)
 export class AdminResolver {

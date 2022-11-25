@@ -1,8 +1,8 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { Customer } from './models/customer.model';
+import { Customer } from '../modules/user/models/customer.model';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../auth/gql-auth.guard';
-import { GqlCurUser } from '../auth/gql-cur-user.param.decorator';
+import { GqlAuthGuard } from '../modules/auth/gql-auth.guard';
+import { GqlCurUser } from '../modules/auth/gql-cur-user.param.decorator';
 
 @Resolver(of => Customer)
 export class CustomerResolver {
