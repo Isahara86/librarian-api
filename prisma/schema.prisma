@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Customer {
-  id    Int     @id @default(autoincrement())
-  email String? @unique
-  name  String
+  id                    Int                    @id @default(autoincrement())
+  email                 String?                @unique
+  name                  String
+  inventoryReservations InventoryReservation[]
 }
 
 model Admin {
@@ -22,4 +23,51 @@ model Admin {
   name         String
   password     String
   passwordSalt String
+}
+
+model Book {
+  id              Int             @id @default(autoincrement())
+  name            String
+  authorId        Int
+  author          Author          @relation(fields: [authorId], references: [id])
+  previewUrl      String?
+  bookInventories BookInventory[]
+  BookCategory    BookCategory[]
+}
+
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
+}
+
+model BookInventory {
+  id           Int    @id @default(autoincrement())
+  bookId       Int
+  book         Book   @relation(fields: [bookId], references: [id])
+  serialNumber String
+}
+
+model InventoryReservation {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime? @db.Timestamptz(6)
+  startAt    DateTime? @db.Timestamptz(6)
+  endAt      DateTime? @db.Timestamptz(6)
+  customerId Int
+  customer   Customer  @relation(fields: [customerId], references: [id])
+}
+
+model Category {
+  id           Int            @id @default(autoincrement())
+  name         String
+  BookCategory BookCategory[]
+}
+
+model BookCategory {
+  bookId     Int
+  book       Book     @relation(fields: [bookId], references: [id])
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([bookId, categoryId])
 }
