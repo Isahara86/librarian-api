@@ -6,9 +6,10 @@ import { BookResolver } from './book.resolver';
 import { CustomerResolver } from './customer.resolver';
 import { AdminResolver } from './admin.resolver';
 import { BookInventoryReservationResolver } from './book-inventory-reservation.resolver';
+import { FileController } from './file.controller';
 
 @Module({
-  controllers: [AppController],
+  controllers: [AppController, FileController],
   providers: [
     AuthorResolver,
     CategoryResolver,
