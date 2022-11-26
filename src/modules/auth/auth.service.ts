@@ -17,7 +17,6 @@ export class AuthService {
   ) {}
 
   async adminLogin({ login, password }: AdminLoginInput): Promise<AdminLoginResponse> {
-    console.log({ login, password });
     const admin = await this.adminService.findByLogin(login);
 
     if (!admin) {
