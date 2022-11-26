@@ -203,11 +203,16 @@ input CategoryUpdateInput {
 input BookCreateInput {
   name: String!
   description: String
-  previewUrl: String
+
+  """When not set previous value will be used"""
+  preview: Upload
   categoryIds: [Int!]!
   authorIds: [Int!]!
   inventories: [BookInventoryCreateInput!]!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input BookInventoryCreateInput {
   serialNumber: String!
@@ -216,7 +221,9 @@ input BookInventoryCreateInput {
 input BookUpdateInput {
   name: String!
   description: String
-  previewUrl: String
+
+  """When not set previous value will be used"""
+  preview: Upload
   categoryIds: [Int!]!
   authorIds: [Int!]!
   id: Int!

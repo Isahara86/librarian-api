@@ -3,14 +3,12 @@ import {
   Post,
   Request,
   UploadedFile,
-  // UseGuards,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from '../modules/file/file.service';
-// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-// import { FileDto } from './dto/file.dto';
-// import { FileConfigService } from './file-config.service';
+import { JwtAuthAdminGuard } from '../modules/auth/jwt-auth-admin.guard';
 
 @Controller('file')
 export class FileController {
@@ -19,13 +17,10 @@ export class FileController {
   ) {}
 
   @Post('/upload')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthAdminGuard)
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
-    @UploadedFile() upload: Express.Multer.File,
-    @Request() req,
-  ): Promise<any> {
-    const file = await this.fileService.saveFile({
+  async uploadFile(@UploadedFile() upload: Express.Multer.File, @Request() req): Promise<any> {
+    const file = await this.fileService.httpSaveFile({
       upload,
       userId: req.user?.id,
     });

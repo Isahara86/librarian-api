@@ -5,6 +5,7 @@ import { NODE_ENV, PORT } from './environment';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 // import helmet from 'helmet';
+import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
 async function bootstrap(): Promise<void> {
   const port = PORT;
@@ -15,6 +16,7 @@ async function bootstrap(): Promise<void> {
   });
   // helmet cause an error with gql playground
   // app.use(helmet());
+  app.use(graphqlUploadExpress({ maxFileSize: 30 * 1000 * 1000, maxFiles: 1 }));
 
   app.useGlobalPipes(
     new ValidationPipe({

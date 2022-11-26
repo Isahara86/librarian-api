@@ -8,10 +8,12 @@ import { BookUpdateInput } from '../../api/inputs/book-update.input';
 import { BookInventoryUpdateInput } from '../../api/inputs/book-inventory-update.input';
 import { BookInventoryCreateInput } from '../../api/inputs/book-inventory-create.input';
 import { BookDetails } from '../../api/models/book-details.model';
+import { FileService } from '../file/file.service';
+import { FileUpload } from '../../api/dto/file-upload.interface';
 
 @Injectable()
 export class BookService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(private readonly db: PrismaService, private readonly fileService: FileService) {}
 
   async findBooks({
     query,
@@ -75,11 +77,13 @@ export class BookService {
   async create({
     name,
     description,
-    previewUrl,
+    preview,
     categoryIds,
     authorIds,
     inventories,
   }: BookCreateInput): Promise<Book> {
+    const previewUrl = preview ? await this.fileService.gqlSaveFile(preview) : null;
+
     const book = await this.db.book.create({
       include: {
         bookAuthors: { include: { author: true } },
@@ -170,17 +174,16 @@ export class BookService {
     id,
     name,
     description,
-    previewUrl,
+    preview,
     categoryIds,
     authorIds,
     updatedInventories,
     newInventories,
   }: BookUpdateInput): Promise<BookDetails> {
     await this.db.$transaction(async transaction => {
-      await this.updateBookInfo({ name, description, previewUrl }, id, transaction);
+      await this.updateBookInfo({ name, description, preview }, id, transaction);
       await this.updateBookCategories(categoryIds, id, transaction);
       await this.updateBookAuthors(authorIds, id, transaction);
-      await this.updateBookInfo({ name, description, previewUrl }, id, transaction);
       await this.updateBookInventories(updatedInventories, id, transaction);
       await this.addBookInventories(newInventories, id, transaction);
     });
@@ -251,15 +254,23 @@ export class BookService {
     {
       name,
       description,
-      previewUrl,
+      preview,
     }: {
       name: string;
       description: string | null | undefined;
-      previewUrl: string | null | undefined;
+      preview?: Promise<FileUpload>;
     },
     bookId: number,
     transaction: Prisma.TransactionClient,
   ): Promise<void> {
+    let previewUrl: string | null | undefined;
+    if (preview) {
+      previewUrl = await this.fileService.gqlSaveFile(preview);
+    } else {
+      const book = await transaction.book.findFirst({ where: { id: bookId } });
+      previewUrl = book?.previewUrl;
+    }
+
     await transaction.book.update({
       where: { id: bookId },
       data: {

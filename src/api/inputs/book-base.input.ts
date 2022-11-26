@@ -1,5 +1,7 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
 import { IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
+import { FileUpload } from '../dto/file-upload.interface';
 
 @InputType()
 export class BookBaseInput {
@@ -8,15 +10,17 @@ export class BookBaseInput {
   @MinLength(3)
   name: string;
 
-  @Field(type => String,{ nullable: true })
+  @Field(type => String, { nullable: true })
   @IsOptional()
   @MinLength(3)
   description: string | null | undefined;
 
-  @Field(type => String,{ nullable: true })
-  @IsString()
+  @Field(() => GraphQLUpload, {
+    nullable: true,
+    description: 'When not set previous value will be used',
+  })
   @IsOptional()
-  previewUrl: string | null | undefined;
+  preview?: Promise<FileUpload>;
 
   @Field(type => [Int])
   @IsNumber({}, { each: true })
