@@ -23,11 +23,11 @@ export class BookService {
     const where: Prisma.BookWhereInput = {};
 
     if (categoryIds) {
-      where.categories = { some: { id: { in: categoryIds } } };
+      where.bookCategories = { some: { categoryId: { in: categoryIds } } };
     }
 
     if (authorIds) {
-      where.authors = { some: { id: { in: categoryIds } } };
+      where.bookAuthors = { some: { authorId: { in: authorIds } } };
     }
 
     if (query) {
@@ -40,8 +40,8 @@ export class BookService {
     const books = await this.db.book.findMany({
       where,
       include: {
-        authors: true,
-        categories: true,
+        bookAuthors: { include: { author: true } },
+        bookCategories: { include: { category: true } },
         inventories: {
           where: { deletedAt: null },
           include: {
@@ -63,8 +63,8 @@ export class BookService {
       return {
         id: b.id,
         name: b.name,
-        categories: b.categories,
-        authors: b.authors,
+        categories: b.bookCategories.map(bc => bc.category),
+        authors: b.bookAuthors.map(bc => bc.author),
         description: b.description,
         previewUrl: b.previewUrl,
         isAvailable,
@@ -82,8 +82,8 @@ export class BookService {
   }: BookCreateInput): Promise<Book> {
     const book = await this.db.book.create({
       include: {
-        authors: true,
-        categories: true,
+        bookAuthors: { include: { author: true } },
+        bookCategories: { include: { category: true } },
         inventories: true,
       },
       data: {
@@ -107,8 +107,8 @@ export class BookService {
       name,
       description,
       previewUrl,
-      categories: book.categories,
-      authors: book.authors,
+      categories: book.bookCategories.map(bc => bc.category),
+      authors: book.bookAuthors.map(bc => bc.author),
       isAvailable: inventories.length > 0,
     };
   }
@@ -117,8 +117,8 @@ export class BookService {
     const book = await this.db.book.findFirst({
       where: { id },
       include: {
-        authors: true,
-        categories: true,
+        bookAuthors: { include: { author: true } },
+        bookCategories: { include: { category: true } },
         inventories: {
           include: {
             inventoryReservations: {
@@ -142,8 +142,8 @@ export class BookService {
       name: book.name,
       description: book.description,
       previewUrl: book.previewUrl,
-      categories: book.categories,
-      authors: book.authors,
+      categories: book.bookCategories.map(bc => bc.category),
+      authors: book.bookAuthors.map(bc => bc.author),
       inventories: book.inventories.map(
         ({ id, serialNumber, deleteReason, inventoryReservations }) => ({
           id,

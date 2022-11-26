@@ -21,8 +21,8 @@ export class CustomerService {
               include: {
                 book: {
                   include: {
-                    authors: true,
-                    categories: true,
+                    bookAuthors: { include: { author: true } },
+                    bookCategories: { include: { category: true } },
                     inventories: {
                       include: {
                         inventoryReservations: {
@@ -69,8 +69,8 @@ export class CustomerService {
             name: h.bookInventory.book.name,
             description: h.bookInventory.book.description,
             previewUrl: h.bookInventory.book.previewUrl,
-            categories: h.bookInventory.book.categories,
-            authors: h.bookInventory.book.authors,
+            categories: h.bookInventory.book.bookCategories.map(bc => bc.category),
+            authors: h.bookInventory.book.bookAuthors.map(bc => bc.author),
             inventories: h.bookInventory.book.inventories.map(
               ({ id, serialNumber, deleteReason, inventoryReservations }) => ({
                 id,

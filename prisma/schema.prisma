@@ -34,8 +34,6 @@ model Book {
   previewUrl     String?
   description    String?
   inventories    BookInventory[]
-  categories     Category[]
-  authors        Author[]
   bookAuthors    BookAuthor[]
   bookCategories BookCategory[]
 }
@@ -43,7 +41,6 @@ model Book {
 model Author {
   id         Int          @id @default(autoincrement())
   name       String
-  books      Book[]
   bookAuthor BookAuthor[]
 }
 
@@ -82,7 +79,6 @@ model InventoryReservation {
 model Category {
   id             Int            @id @default(autoincrement())
   name           String
-  books          Book[]
   bookCategories BookCategory[]
 }
 
