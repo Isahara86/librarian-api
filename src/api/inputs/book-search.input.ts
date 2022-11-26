@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 import { IsOptional, IsString, IsNumber } from 'class-validator';
 import { PaginationInput } from './pagination.input';
 
@@ -9,12 +9,12 @@ export class BookSearchInput extends PaginationInput {
   @IsOptional()
   query?: string;
 
-  @Field(type => [String])
+  @Field(type => [Int], { nullable: true })
   @IsNumber({}, { each: true })
   @IsOptional()
   categoryIds?: number[];
 
-  @Field(type => [String])
+  @Field(type => [Int], { nullable: true })
   @IsNumber({}, { each: true })
   @IsOptional()
   authorIds?: number[];
