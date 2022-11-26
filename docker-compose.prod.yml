@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
 
@@ -8,37 +8,35 @@ services:
       context: .
       dockerfile: Dockerfile
     image: nodejs
-
     links:
       - db
-    volumes:
-      - ./data/logs/:/var/logs
+    #    volumes:
+    #      - ./tmp/logs/:/var/logs
     container_name: nodejs
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f localhost:3000/app/version || exit 1"]
+      test: ["CMD-SHELL", "curl -f localhost:3000 || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 5
-    environment:
-      - PG_HOST=db
-      - NODE_LOG_FILE_PATH=/var/logs/gleec-connect/1111_____log.txt
     ports:
       - "3000:3000"
 
-
+  # service name should be the same as in env.prod to allow prisma properly generate
   db:
-    image: postgres:11
+    image: postgres:13
     container_name: db
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=gleec-connect
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=librarian-db
     volumes:
-      - ./data/db/:/var/lib/postgresql/data
+      - ./tmp/db/:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready postgres://${PG_USER}:${PG_PASSWORD}@localhost:5432/librarian-db"]
       interval: 5s
       timeout: 5s
       retries: 5
+    ports:
+      - "5433:5432"
