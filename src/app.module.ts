@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { BookModule } from './modules/book/book.module';
-// import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApiModule } from './api/api.module';
 
 const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule];
@@ -19,9 +19,9 @@ const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      // // Required playground: false for ApolloServerPluginLandingPageLocalDefault
-      // playground: false,
-      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      // Required playground: false for ApolloServerPluginLandingPageLocalDefault
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     ...globalModules,
   ],
