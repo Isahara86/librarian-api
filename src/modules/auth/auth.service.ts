@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CustomerService } from '../user/customer.service';
 import { JwtService } from '@nestjs/jwt';
-import { JWT_ADMIN_SECRET, PASSWORD_SALT } from '../../environment';
+import { JWT_ADMIN_SECRET } from '../../environment';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
-import { AdminLoginInput } from './dto/admin-login.input';
+import { AdminLoginInput } from '../../api/models/admin-login.input';
 import { AdminService } from '../user/admin.service';
 import * as bcrypt from 'bcrypt';
-import { AdminLoginResponse } from '../user/models/admin-login-response.model';
+import { AdminLoginResponse } from '../../api/models/admin-login-response.model';
 
 @Injectable()
 export class AuthService {
@@ -48,9 +48,8 @@ export class AuthService {
     password: string;
     salt: string;
   }): Promise<void> {
-    const hash = await bcrypt.hash(password + PASSWORD_SALT, salt);
+    const hash = await bcrypt.hash(password, salt);
     const isValid = passwordHash === hash;
-    console.log(1111, isValid);
 
     if (!isValid) {
       throw new NotFoundException('Login and password combination not found');
@@ -74,7 +73,7 @@ export class AuthService {
     const adminPasswordSalt = await bcrypt.genSalt(10);
 
     // TODO add user id to password to prevent password swap
-    const hash = await bcrypt.hash(password + PASSWORD_SALT, adminPasswordSalt);
+    const hash = await bcrypt.hash(password, adminPasswordSalt);
 
     await this.adminService.create({
       login,
