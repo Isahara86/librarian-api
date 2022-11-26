@@ -9,10 +9,7 @@ export class AdminResolver {
   constructor(private readonly authService: AuthService) {}
 
   @Mutation(returns => AdminLoginResponse)
-  adminLogin(
-    @Args('input')
-    input: AdminLoginInput,
-  ): Promise<AdminLoginResponse> {
+  adminLogin(@Args('input') input: AdminLoginInput): Promise<AdminLoginResponse> {
     return this.authService.adminLogin(input);
   }
 }

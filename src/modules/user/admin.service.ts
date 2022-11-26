@@ -6,11 +6,11 @@ import { PrismaService } from '../../prisma.service';
 export class AdminService {
   constructor(private readonly db: PrismaService) {}
 
-  async findById(id: number): Promise<Admin> {
+  async findById(id: number): Promise<Admin | null> {
     return this.db.admin.findFirst({ where: { id } });
   }
 
-  async findByLogin(login: string): Promise<Admin> {
+  async findByLogin(login: string): Promise<Admin | null> {
     return this.db.admin.findFirst({ where: { login } });
   }
 

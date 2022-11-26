@@ -12,13 +12,98 @@ type Category {
   name: String!
 }
 
+type Book {
+  id: Int!
+  name: String!
+  description: String
+  previewUrl: String
+  categories: [Category!]!
+  authors: [Author!]!
+  isAvailable: Boolean!
+}
+
 """customer """
 type Customer {
   id: Int!
-  email: String
 
   """Customer nick name"""
   name: String!
+  email: String
+  phone: String
+  description: String
+}
+
+type BookInventoryReservation {
+  id: Int!
+
+  """milliseconds"""
+  createdAt: Int
+
+  """milliseconds"""
+  startAt: Int
+
+  """milliseconds"""
+  endAt: Int
+
+  """milliseconds"""
+  returnedAt: Int
+  description: String
+  customer: [Customer!]!
+}
+
+type BookInventoryDetails {
+  id: Int!
+  serialNumber: String!
+  deleteReason: String
+  activeReservation: BookInventoryReservation
+}
+
+type BookDetails {
+  id: Int!
+  name: String!
+  description: String
+  previewUrl: String
+  categories: [Category!]!
+  authors: [Author!]!
+  inventories: [BookInventoryDetails!]!
+  isAvailable: Boolean!
+}
+
+type BookInventory {
+  id: Int!
+  serialNumber: String!
+  deleteReason: String
+  book: Book!
+}
+
+type CustomerDetailsReservation {
+  id: Int!
+
+  """milliseconds"""
+  createdAt: Int
+
+  """milliseconds"""
+  startAt: Int
+
+  """milliseconds"""
+  endAt: Int
+
+  """milliseconds"""
+  returnedAt: Int
+  description: String
+  bookInventory: BookInventory!
+}
+
+"""customer """
+type CustomerDetails {
+  id: Int!
+
+  """Customer nick name"""
+  name: String!
+  email: String
+  phone: String
+  description: String
+  activeReservations: [CustomerDetailsReservation!]!
 }
 
 type AdminLoginResponse {
@@ -29,7 +114,12 @@ type AdminLoginResponse {
 type Query {
   authors(input: AuthorSearchInput!): [Author!]!
   categories(input: CategorySearchInput!): [Category!]!
+  findBooks(input: BookSearchInput!): [Book!]!
+  bookDetails(id: Int!): [BookDetails!]!
+  customerDetails(id: Int!): [CustomerDetails!]!
   customers(input: CustomersSearchInput!): [Customer!]!
+  customerReservationHistory(input: CustomerReservationsSearchInput!): [CustomerDetailsReservation!]!
+  bookReservationHistory(input: BookInventoryReservationSearchInput!): [BookInventoryReservation!]!
 }
 
 input AuthorSearchInput {
@@ -44,10 +134,33 @@ input CategorySearchInput {
   query: String
 }
 
+input BookSearchInput {
+  offset: Int = 0
+  limit: Int = 10
+
+  """search by name, description"""
+  query: String
+  categoryIds: [String!]!
+  authorIds: [String!]!
+}
+
 input CustomersSearchInput {
   offset: Int = 0
   limit: Int = 10
   query: String
+}
+
+input CustomerReservationsSearchInput {
+  offset: Int = 0
+  limit: Int = 10
+  customerId: Int!
+}
+
+input BookInventoryReservationSearchInput {
+  offset: Int = 0
+  limit: Int = 10
+  bookId: Int!
+  inventoryId: Int
 }
 
 type Mutation {
@@ -55,9 +168,13 @@ type Mutation {
   updateAuthor(input: AuthorUpdateInput!): Author!
   createCategory(input: CategoryCreateInput!): Category!
   updateCategory(input: CategoryUpdateInput!): Category!
+  createBook(input: BookCreateInput!): Book!
+  updateBook(input: BookUpdateInput!): Book!
   createCustomer(input: CustomerCreateInput!): Customer!
   updateCustomer(input: CustomerUpdateInput!): Customer!
   adminLogin(input: AdminLoginInput!): AdminLoginResponse!
+  createBookReservation(input: BookInventoryReservationCreateInput!): BookInventoryReservation!
+  updateBookReservation(input: BookInventoryReservationUpdateInput!): BookInventoryReservation!
 }
 
 input AuthorCreateInput {
@@ -78,18 +195,70 @@ input CategoryUpdateInput {
   id: Int!
 }
 
+input BookCreateInput {
+  name: String!
+  description: String
+  previewUrl: String
+  categoryIds: [Int!]!
+  authorIds: [Int!]!
+  inventories: [BookInventoryCreateInput!]!
+}
+
+input BookInventoryCreateInput {
+  serialNumber: String!
+}
+
+input BookUpdateInput {
+  name: String!
+  description: String
+  previewUrl: String
+  categoryIds: [Int!]!
+  authorIds: [Int!]!
+  id: Int!
+  updatedInventories: [BookInventoryUpdateInput!]!
+  newInventories: [BookInventoryCreateInput!]!
+}
+
+input BookInventoryUpdateInput {
+  id: Int!
+  serialNumber: String!
+  deleteReason: String!
+}
+
 input CustomerCreateInput {
   name: String!
   email: String
+  phone: String
+  description: String
 }
 
 input CustomerUpdateInput {
   name: String!
   email: String
+  phone: String
+  description: String
   id: Int!
 }
 
 input AdminLoginInput {
   login: String!
   password: String!
+}
+
+input BookInventoryReservationCreateInput {
+  customerId: Int!
+  bookInventoryId: Int!
+  description: String!
+  startAt: Int!
+  endAt: Int!
+}
+
+input BookInventoryReservationUpdateInput {
+  customerId: Int!
+  bookInventoryId: Int!
+  description: String!
+  startAt: Int!
+  endAt: Int!
+  id: Int!
+  returnedAt: Int
 }

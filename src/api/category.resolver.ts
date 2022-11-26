@@ -11,28 +11,19 @@ import { CategoryUpdateInput } from './models/category-update.input';
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
   @Query(returns => [Category])
-  async categories(
-    @Args('input')
-    input: CategorySearchInput,
-  ): Promise<Category[]> {
+  async categories(@Args('input') input: CategorySearchInput): Promise<Category[]> {
     return this.categoryService.findCategories(input);
   }
 
   @Mutation(returns => Category)
   @UseGuards(GqlAdminAuthGuard)
-  createCategory(
-    @Args('input')
-    input: CategoryCreateInput,
-  ): Promise<Category> {
+  createCategory(@Args('input') input: CategoryCreateInput): Promise<Category> {
     return this.categoryService.create(input);
   }
 
   @Mutation(returns => Category)
   @UseGuards(GqlAdminAuthGuard)
-  updateCategory(
-    @Args('input')
-    input: CategoryUpdateInput,
-  ): Promise<Category> {
+  updateCategory(@Args('input') input: CategoryUpdateInput): Promise<Category> {
     return this.categoryService.update(input);
   }
 }

@@ -1,7 +1,8 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { CustomerDetailsReservation } from './customer-details-reservation.model';
 
 @ObjectType({ description: 'customer ' })
-export class Customer {
+export class CustomerDetails {
   @Field(type => Int)
   id: number;
 
@@ -16,4 +17,7 @@ export class Customer {
 
   @Field(type => String, { nullable: true })
   description: string | null;
+
+  @Field(type => [CustomerDetailsReservation])
+  activeReservations: CustomerDetailsReservation[];
 }

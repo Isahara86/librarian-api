@@ -5,9 +5,17 @@ import { CategoryResolver } from './category.resolver';
 import { BookResolver } from './book.resolver';
 import { CustomerResolver } from './customer.resolver';
 import { AdminResolver } from './admin.resolver';
+import { BookInventoryReservationResolver } from './book-inventory-reservation.resolver';
 
 @Module({
   controllers: [AppController],
-  providers: [AuthorResolver, CategoryResolver, BookResolver, CustomerResolver, AdminResolver],
+  providers: [
+    AuthorResolver,
+    CategoryResolver,
+    BookResolver,
+    CustomerResolver,
+    AdminResolver,
+    BookInventoryReservationResolver,
+  ],
 })
 export class ApiModule {}

@@ -11,28 +11,19 @@ import { AuthorUpdateInput } from './models/author-update.input';
 export class AuthorResolver {
   constructor(private readonly authorService: AuthorService) {}
   @Query(returns => [Author])
-  async authors(
-    @Args('input')
-    input: AuthorSearchInput,
-  ): Promise<Author[]> {
+  async authors(@Args('input') input: AuthorSearchInput): Promise<Author[]> {
     return this.authorService.findAuthors(input);
   }
 
   @Mutation(returns => Author)
   @UseGuards(GqlAdminAuthGuard)
-  createAuthor(
-    @Args('input')
-    input: AuthorCreateInput,
-  ): Promise<Author> {
+  createAuthor(@Args('input') input: AuthorCreateInput): Promise<Author> {
     return this.authorService.create(input);
   }
 
   @Mutation(returns => Author)
   @UseGuards(GqlAdminAuthGuard)
-  updateAuthor(
-    @Args('input')
-    input: AuthorUpdateInput,
-  ): Promise<Author> {
+  updateAuthor(@Args('input') input: AuthorUpdateInput): Promise<Author> {
     return this.authorService.update(input);
   }
 }

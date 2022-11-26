@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import {
   AWS_ACCESS_KEY_ID,
@@ -12,13 +12,33 @@ import * as uuid from 'uuid';
 
 @Injectable()
 export class FileService {
-  private readonly s3: S3 = new S3({
-    region: S3_BUCKET_REGION,
-    credentials: {
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    },
-  });
+  private readonly s3: S3;
+  private readonly IMAGE_S3_BUCKET_NAME: string;
+
+  constructor() {
+    if (!S3_BUCKET_REGION) {
+      throw new Error('S3_BUCKET_REGION is required');
+    }
+    if (!AWS_ACCESS_KEY_ID) {
+      throw new Error('S3_BUCKET_REGION is required');
+    }
+    if (!AWS_SECRET_ACCESS_KEY) {
+      throw new Error('S3_BUCKET_REGION is required');
+    }
+    if (!IMAGE_S3_BUCKET_NAME) {
+      throw new Error('S3_BUCKET_REGION is required');
+    }
+
+    this.s3 = new S3({
+      region: S3_BUCKET_REGION,
+      credentials: {
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      },
+    });
+
+    this.IMAGE_S3_BUCKET_NAME = IMAGE_S3_BUCKET_NAME;
+  }
 
   public async saveFile({ userId, upload }: any): Promise<any> {
     const mimeType = upload.mimetype;
@@ -30,7 +50,7 @@ export class FileService {
     const Key = 'img/' + uuid.v1() + '.' + extension;
 
     const uploadParams: S3.PutObjectRequest = {
-      Bucket: IMAGE_S3_BUCKET_NAME,
+      Bucket: this.IMAGE_S3_BUCKET_NAME,
       Key,
       Body: upload.buffer,
       ContentType: mimeType,

@@ -12,4 +12,14 @@ export class CustomerCreateInput {
   @IsEmail()
   @IsOptional()
   email?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  description?: string;
 }

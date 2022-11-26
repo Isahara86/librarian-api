@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -13,6 +14,8 @@ datasource db {
 model Customer {
   id                    Int                    @id @default(autoincrement())
   email                 String?                @unique
+  phone                 String?                @unique
+  description           String?
   name                  String
   inventoryReservations InventoryReservation[]
 }
@@ -26,21 +29,22 @@ model Admin {
 }
 
 model Book {
-  id              Int             @id @default(autoincrement())
-  name            String
-  previewUrl      String?
-  bookInventories BookInventory[]
-  BookCategory    BookCategory[]
-  Author          Author?         @relation(fields: [authorId], references: [id])
-  authorId        Int?
-  BookAuthor      BookAuthor[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  previewUrl     String?
+  description    String?
+  inventories    BookInventory[]
+  categories     Category[]
+  authors        Author[]
+  bookAuthors    BookAuthor[]
+  bookCategories BookCategory[]
 }
 
 model Author {
   id         Int          @id @default(autoincrement())
   name       String
   books      Book[]
-  BookAuthor BookAuthor[]
+  bookAuthor BookAuthor[]
 }
 
 model BookAuthor {
@@ -53,25 +57,33 @@ model BookAuthor {
 }
 
 model BookInventory {
-  id           Int    @id @default(autoincrement())
-  bookId       Int
-  book         Book   @relation(fields: [bookId], references: [id])
-  serialNumber String
+  id                    Int                    @id @default(autoincrement())
+  bookId                Int
+  book                  Book                   @relation(fields: [bookId], references: [id])
+  serialNumber          String
+  deleteReason          String?
+  deletedAt             DateTime?              @db.Timestamptz(6)
+  inventoryReservations InventoryReservation[]
 }
 
 model InventoryReservation {
-  id         Int       @id @default(autoincrement())
-  createdAt  DateTime? @db.Timestamptz(6)
-  startAt    DateTime? @db.Timestamptz(6)
-  endAt      DateTime? @db.Timestamptz(6)
-  customerId Int
-  customer   Customer  @relation(fields: [customerId], references: [id])
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime?     @db.Timestamptz(6)
+  startAt         DateTime?     @db.Timestamptz(6)
+  endAt           DateTime?     @db.Timestamptz(6)
+  returnedAt      DateTime?     @db.Timestamptz(6)
+  bookInventoryId Int
+  bookInventory   BookInventory @relation(fields: [bookInventoryId], references: [id])
+  customerId      Int
+  customer        Customer      @relation(fields: [customerId], references: [id])
+  description     String?
 }
 
 model Category {
-  id           Int            @id @default(autoincrement())
-  name         String
-  BookCategory BookCategory[]
+  id             Int            @id @default(autoincrement())
+  name           String
+  books          Book[]
+  bookCategories BookCategory[]
 }
 
 model BookCategory {
