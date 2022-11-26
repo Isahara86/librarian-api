@@ -1,23 +1,39 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
-import { Customer } from '../modules/user/models/customer.model';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Customer } from './models/customer.model';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '../modules/auth/gql-auth.guard';
-import { GqlCurUser } from '../modules/auth/gql-cur-user.param.decorator';
+import { CustomerCreateInput } from './models/customer-create.input';
+import { CustomerService } from '../modules/user/customer.service';
+import { CustomerUpdateInput } from './models/customer-update.input';
+import { CustomersSearchInput } from './models/customers-search.input';
+import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
 
 @Resolver(of => Customer)
 export class CustomerResolver {
-  @Query(returns => Customer)
-  @UseGuards(GqlAuthGuard)
-  whoAmI(@GqlCurUser() user: any) {
-    console.log(user);
-    return { id: 114, ...user };
+  constructor(private readonly customerService: CustomerService) {}
+  @Query(returns => [Customer])
+  @UseGuards(GqlAdminAuthGuard)
+  async customers(
+    @Args('input')
+    input: CustomersSearchInput,
+  ): Promise<Customer[]> {
+    return this.customerService.findCustomers(input);
   }
 
-  @Query(returns => [Customer])
-  async customers(): Promise<Customer[]> {
-    return [
-      { id: 11, email: 'test@test.com', name: 'Eren' },
-      { id: 12, email: 'test2@test.com', name: 'Lila' },
-    ];
+  @Mutation(returns => Customer)
+  @UseGuards(GqlAdminAuthGuard)
+  createCustomer(
+    @Args('input')
+    input: CustomerCreateInput,
+  ): Promise<Customer> {
+    return this.customerService.create(input);
+  }
+
+  @Mutation(returns => Customer)
+  @UseGuards(GqlAdminAuthGuard)
+  updateCustomer(
+    @Args('input')
+    input: CustomerUpdateInput,
+  ): Promise<Customer> {
+    return this.customerService.update(input);
   }
 }

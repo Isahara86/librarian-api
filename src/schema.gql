@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Author {
+  id: Int!
+  name: String!
+}
+
+type Category {
+  id: Int!
+  name: String!
+}
+
 """customer """
 type Customer {
   id: Int!
@@ -17,13 +27,66 @@ type AdminLoginResponse {
 }
 
 type Query {
-  whoAmI: Customer!
-  customers: [Customer!]!
-  whoAmIAdmin: Customer!
+  authors(input: AuthorSearchInput!): [Author!]!
+  categories(input: CategorySearchInput!): [Category!]!
+  customers(input: CustomersSearchInput!): [Customer!]!
+}
+
+input AuthorSearchInput {
+  offset: Int = 0
+  limit: Int = 10
+  query: String
+}
+
+input CategorySearchInput {
+  offset: Int = 0
+  limit: Int = 10
+  query: String
+}
+
+input CustomersSearchInput {
+  offset: Int = 0
+  limit: Int = 10
+  query: String
 }
 
 type Mutation {
+  createAuthor(input: AuthorCreateInput!): Author!
+  updateAuthor(input: AuthorUpdateInput!): Author!
+  createCategory(input: CategoryCreateInput!): Category!
+  updateCategory(input: CategoryUpdateInput!): Category!
+  createCustomer(input: CustomerCreateInput!): Customer!
+  updateCustomer(input: CustomerUpdateInput!): Customer!
   adminLogin(input: AdminLoginInput!): AdminLoginResponse!
+}
+
+input AuthorCreateInput {
+  name: String!
+}
+
+input AuthorUpdateInput {
+  name: String!
+  id: Int!
+}
+
+input CategoryCreateInput {
+  name: String!
+}
+
+input CategoryUpdateInput {
+  name: String!
+  id: Int!
+}
+
+input CustomerCreateInput {
+  name: String!
+  email: String
+}
+
+input CustomerUpdateInput {
+  name: String!
+  email: String
+  id: Int!
 }
 
 input AdminLoginInput {
