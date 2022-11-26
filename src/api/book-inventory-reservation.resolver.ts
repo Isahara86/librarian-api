@@ -2,12 +2,12 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
 import { BookInventoryReservationService } from '../modules/book/book-inventory-reservation.service';
-import { BookInventoryReservationSearchInput } from './models/book-inventory-reservation-search.input';
-import { BookInventoryReservationCreateInput } from './models/book-inventory-reservation-create.input';
-import { BookInventoryReservationUpdateInput } from './models/book-inventory-reservation-update.input';
+import { BookInventoryReservationSearchInput } from './inputs/book-inventory-reservation-search.input';
+import { BookInventoryReservationCreateInput } from './inputs/book-inventory-reservation-create.input';
+import { BookInventoryReservationUpdateInput } from './inputs/book-inventory-reservation-update.input';
 import { BookInventoryReservation } from './models/book-inventory-reservation.model';
 import { CustomerDetailsReservation } from './models/customer-details-reservation.model';
-import { CustomerReservationsSearchInput } from './models/customer-reservations-search.input';
+import { CustomerReservationsSearchInput } from './inputs/customer-reservations-search.input';
 
 @Resolver(of => BookInventoryReservation)
 export class BookInventoryReservationResolver {

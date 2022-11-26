@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma, Author } from '@prisma/client';
-import { AuthorSearchInput } from '../../api/models/author-search.input';
-import { AuthorUpdateInput } from '../../api/models/author-update.input';
+import { AuthorSearchInput } from '../../api/inputs/author-search.input';
+import { AuthorUpdateInput } from '../../api/inputs/author-update.input';
 
 @Injectable()
 export class AuthorService {

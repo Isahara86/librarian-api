@@ -3,9 +3,9 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
 import { Author } from './models/author.model';
 import { AuthorService } from '../modules/book/author.service';
-import { AuthorSearchInput } from './models/author-search.input';
-import { AuthorCreateInput } from './models/author-create.input';
-import { AuthorUpdateInput } from './models/author-update.input';
+import { AuthorSearchInput } from './inputs/author-search.input';
+import { AuthorCreateInput } from './inputs/author-create.input';
+import { AuthorUpdateInput } from './inputs/author-update.input';
 
 @Resolver(of => Author)
 export class AuthorResolver {

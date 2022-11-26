@@ -1,11 +1,11 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book } from './models/book.model';
 import { BookService } from '../modules/book/book.service';
-import { BookSearchInput } from './models/book-search.input';
+import { BookSearchInput } from './inputs/book-search.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
-import { BookCreateInput } from './models/book-create.input';
-import { BookUpdateInput } from './models/book-update.input';
+import { BookCreateInput } from './inputs/book-create.input';
+import { BookUpdateInput } from './inputs/book-update.input';
 import { BookDetails } from './models/book-details.model';
 
 @Resolver(of => Book)

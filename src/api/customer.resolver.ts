@@ -1,10 +1,10 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Customer } from './models/customer.model';
 import { UseGuards } from '@nestjs/common';
-import { CustomerCreateInput } from './models/customer-create.input';
+import { CustomerCreateInput } from './inputs/customer-create.input';
 import { CustomerService } from '../modules/user/customer.service';
-import { CustomerUpdateInput } from './models/customer-update.input';
-import { CustomersSearchInput } from './models/customers-search.input';
+import { CustomerUpdateInput } from './inputs/customer-update.input';
+import { CustomersSearchInput } from './inputs/customers-search.input';
 import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
 import { CustomerDetails } from './models/customer-details.model';
 

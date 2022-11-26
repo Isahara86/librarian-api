@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { BookSearchInput } from '../../api/models/book-search.input';
+import { BookSearchInput } from '../../api/inputs/book-search.input';
 import { Book } from '../../api/models/book.model';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
-import { BookCreateInput } from '../../api/models/book-create.input';
-import { BookUpdateInput } from '../../api/models/book-update.input';
-import { BookInventoryUpdateInput } from '../../api/models/book-inventory-update.input';
-import { BookInventoryCreateInput } from '../../api/models/book-inventory-create.input';
+import { BookCreateInput } from '../../api/inputs/book-create.input';
+import { BookUpdateInput } from '../../api/inputs/book-update.input';
+import { BookInventoryUpdateInput } from '../../api/inputs/book-inventory-update.input';
+import { BookInventoryCreateInput } from '../../api/inputs/book-inventory-create.input';
 import { BookDetails } from '../../api/models/book-details.model';
 
 @Injectable()

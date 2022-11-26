@@ -3,9 +3,9 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
 import { Category } from './models/category.model';
 import { CategoryService } from '../modules/book/category.service';
-import { CategorySearchInput } from './models/category-search.input';
-import { CategoryCreateInput } from './models/category-create.input';
-import { CategoryUpdateInput } from './models/category-update.input';
+import { CategorySearchInput } from './inputs/category-search.input';
+import { CategoryCreateInput } from './inputs/category-create.input';
+import { CategoryUpdateInput } from './inputs/category-update.input';
 
 @Resolver(of => Category)
 export class CategoryResolver {
