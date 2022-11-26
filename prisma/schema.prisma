@@ -65,9 +65,9 @@ model BookInventory {
 
 model InventoryReservation {
   id              Int           @id @default(autoincrement())
-  createdAt       DateTime?     @db.Timestamptz(6)
-  startAt         DateTime?     @db.Timestamptz(6)
-  endAt           DateTime?     @db.Timestamptz(6)
+  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
+  startAt         DateTime      @db.Timestamptz(6)
+  endAt           DateTime      @db.Timestamptz(6)
   returnedAt      DateTime?     @db.Timestamptz(6)
   bookInventoryId Int
   bookInventory   BookInventory @relation(fields: [bookInventoryId], references: [id])
