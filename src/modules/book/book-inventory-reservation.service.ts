@@ -50,10 +50,10 @@ export class BookInventoryReservationService {
 
     return history.map(h => ({
       id: h.id,
-      createdAt: h.createdAt?.getTime(),
-      startAt: h.startAt?.getTime(),
-      endAt: h.endAt?.getTime(),
-      returnedAt: h.returnedAt?.getTime(),
+      createdAt: h.createdAt,
+      startAt: h.startAt,
+      endAt: h.endAt,
+      returnedAt: h.returnedAt,
       description: h.description,
       bookInventory: {
         id: h.bookInventory.id,
@@ -74,10 +74,10 @@ export class BookInventoryReservationService {
               activeReservation: inventoryReservations[0]
                 ? {
                     id: inventoryReservations[0].id,
-                    createdAt: inventoryReservations[0].createdAt?.getTime(),
-                    startAt: inventoryReservations[0].startAt?.getTime(),
-                    endAt: inventoryReservations[0].endAt?.getTime(),
-                    returnedAt: inventoryReservations[0].returnedAt?.getTime(),
+                    createdAt: inventoryReservations[0].createdAt,
+                    startAt: inventoryReservations[0].startAt,
+                    endAt: inventoryReservations[0].endAt,
+                    returnedAt: inventoryReservations[0].returnedAt,
                     description: inventoryReservations[0].description,
                     customer: inventoryReservations[0].customer,
                   }
@@ -110,10 +110,10 @@ export class BookInventoryReservationService {
 
     return reservations.map(res => ({
       id: res.id,
-      createdAt: res.createdAt?.getTime(),
-      startAt: res.startAt?.getTime(),
-      endAt: res.endAt?.getTime(),
-      returnedAt: res.returnedAt?.getTime(),
+      createdAt: res.createdAt,
+      startAt: res.startAt,
+      endAt: res.endAt,
+      returnedAt: res.returnedAt,
       description: res.description,
       customer: res.customer,
     }));
@@ -126,6 +126,14 @@ export class BookInventoryReservationService {
     startAt,
     endAt,
   }: BookInventoryReservationCreateInput): Promise<BookInventoryReservation> {
+    const activeReserve = await this.db.inventoryReservation.findFirst({
+      where: { bookInventoryId, returnedAt: null },
+    });
+
+    if (activeReserve) {
+      throw new BadRequestException('This book is already reserved');
+    }
+
     const reservation = await this.db.inventoryReservation.create({
       include: {
         customer: true,
@@ -141,10 +149,10 @@ export class BookInventoryReservationService {
 
     return {
       id: reservation.id,
-      createdAt: reservation.createdAt?.getTime(),
-      startAt: reservation.startAt?.getTime(),
-      endAt: reservation.endAt?.getTime(),
-      returnedAt: reservation.returnedAt?.getTime(),
+      createdAt: reservation.createdAt,
+      startAt: reservation.startAt,
+      endAt: reservation.endAt,
+      returnedAt: reservation.returnedAt,
       description: reservation.description,
       customer: reservation.customer,
     };
@@ -182,10 +190,10 @@ export class BookInventoryReservationService {
 
     return {
       id: reservation.id,
-      createdAt: reservation.createdAt?.getTime(),
-      startAt: reservation.startAt?.getTime(),
-      endAt: reservation.endAt?.getTime(),
-      returnedAt: reservation.returnedAt?.getTime(),
+      createdAt: reservation.createdAt,
+      startAt: reservation.startAt,
+      endAt: reservation.endAt,
+      returnedAt: reservation.returnedAt,
       description: reservation.description,
       customer: reservation.customer,
     };

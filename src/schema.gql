@@ -37,19 +37,24 @@ type BookInventoryReservation {
   id: Int!
 
   """milliseconds"""
-  createdAt: Int
+  createdAt: Timestamp
 
   """milliseconds"""
-  startAt: Int
+  startAt: Timestamp
 
   """milliseconds"""
-  endAt: Int
+  endAt: Timestamp
 
   """milliseconds"""
-  returnedAt: Int
+  returnedAt: Timestamp
   description: String
-  customer: [Customer!]!
+  customer: Customer!
 }
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
 
 type BookInventoryDetails {
   id: Int!
@@ -80,16 +85,16 @@ type CustomerDetailsReservation {
   id: Int!
 
   """milliseconds"""
-  createdAt: Int
+  createdAt: Timestamp
 
   """milliseconds"""
-  startAt: Int
+  startAt: Timestamp
 
   """milliseconds"""
-  endAt: Int
+  endAt: Timestamp
 
   """milliseconds"""
-  returnedAt: Int
+  returnedAt: Timestamp
   description: String
   bookInventory: BookInventory!
 }
@@ -115,7 +120,7 @@ type Query {
   authors(input: AuthorSearchInput!): [Author!]!
   categories(input: CategorySearchInput!): [Category!]!
   findBooks(input: BookSearchInput!): [Book!]!
-  bookDetails(id: Int!): [BookDetails!]!
+  bookDetails(id: Int!): BookDetails!
   customerDetails(id: Int!): [CustomerDetails!]!
   customers(input: CustomersSearchInput!): [Customer!]!
   customerReservationHistory(input: CustomerReservationsSearchInput!): [CustomerDetailsReservation!]!
@@ -140,8 +145,8 @@ input BookSearchInput {
 
   """search by name, description"""
   query: String
-  categoryIds: [String!]!
-  authorIds: [String!]!
+  categoryIds: [Int!]
+  authorIds: [Int!]
 }
 
 input CustomersSearchInput {
@@ -249,16 +254,16 @@ input BookInventoryReservationCreateInput {
   customerId: Int!
   bookInventoryId: Int!
   description: String!
-  startAt: Int!
-  endAt: Int!
+  startAt: Timestamp!
+  endAt: Timestamp!
 }
 
 input BookInventoryReservationUpdateInput {
   customerId: Int!
   bookInventoryId: Int!
   description: String!
-  startAt: Int!
-  endAt: Int!
+  startAt: Timestamp!
+  endAt: Timestamp!
   id: Int!
-  returnedAt: Int
+  returnedAt: Timestamp
 }

@@ -152,10 +152,10 @@ export class BookService {
           activeReservation: inventoryReservations[0]
             ? {
                 id: inventoryReservations[0].id,
-                createdAt: inventoryReservations[0].createdAt?.getTime(),
-                startAt: inventoryReservations[0].startAt?.getTime(),
-                endAt: inventoryReservations[0].endAt?.getTime(),
-                returnedAt: inventoryReservations[0].returnedAt?.getTime(),
+                createdAt: inventoryReservations[0].createdAt,
+                startAt: inventoryReservations[0].startAt,
+                endAt: inventoryReservations[0].endAt,
+                returnedAt: inventoryReservations[0].returnedAt,
                 description: inventoryReservations[0].description,
                 customer: inventoryReservations[0].customer,
               }

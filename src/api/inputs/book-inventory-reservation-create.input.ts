@@ -1,5 +1,5 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsInt, Min, MinLength } from 'class-validator';
+import { InputType, Field, Int, GraphQLTimestamp } from '@nestjs/graphql';
+import { IsInt, IsDefined, IsString, Min, MinLength } from 'class-validator';
 
 @InputType()
 export class BookInventoryReservationCreateInput {
@@ -14,17 +14,15 @@ export class BookInventoryReservationCreateInput {
   bookInventoryId: number;
 
   @Field(type => String)
-  @IsInt()
+  @IsString()
   @MinLength(3)
   description: string | null | undefined;
 
-  @Field(type => Int)
-  @IsInt()
-  @Min(1000000000000)
+  @Field(type => GraphQLTimestamp)
+  @IsDefined()
   startAt: number;
 
-  @Field(type => Int)
-  @IsInt()
-  @Min(1000000000000)
+  @Field(type => GraphQLTimestamp)
+  @IsDefined()
   endAt: number;
 }

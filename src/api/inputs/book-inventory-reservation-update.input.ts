@@ -1,5 +1,5 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsOptional, Min } from 'class-validator';
+import { InputType, Field, Int, GraphQLTimestamp } from '@nestjs/graphql';
+import { IsInt, IsOptional } from 'class-validator';
 import { BookInventoryReservationCreateInput } from './book-inventory-reservation-create.input';
 
 @InputType()
@@ -8,9 +8,7 @@ export class BookInventoryReservationUpdateInput extends BookInventoryReservatio
   @IsInt()
   id: number;
 
-  @Field(type => Int, { nullable: true })
-  @IsInt()
+  @Field(type => GraphQLTimestamp, { nullable: true })
   @IsOptional()
-  @Min(1000000000000)
   returnedAt?: number;
 }

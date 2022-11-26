@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, GraphQLTimestamp, Int, ObjectType } from '@nestjs/graphql';
 import { Customer } from './customer.model';
 
 @ObjectType()
@@ -6,21 +6,21 @@ export class BookInventoryReservation {
   @Field(type => Int)
   id: number;
 
-  @Field(type => Int, { nullable: true, description: 'milliseconds' })
-  createdAt: number | null | undefined;
+  @Field(type => GraphQLTimestamp, { nullable: true, description: 'milliseconds' })
+  createdAt: Date;
 
-  @Field(type => Int, { nullable: true, description: 'milliseconds' })
-  startAt: number | null | undefined;
+  @Field(type => GraphQLTimestamp, { nullable: true, description: 'milliseconds' })
+  startAt: Date;
 
-  @Field(type => Int, { nullable: true, description: 'milliseconds' })
-  endAt: number | null | undefined;
+  @Field(type => GraphQLTimestamp, { nullable: true, description: 'milliseconds' })
+  endAt: Date;
 
-  @Field(type => Int, { nullable: true, description: 'milliseconds' })
-  returnedAt: number | null | undefined;
+  @Field(type => GraphQLTimestamp, { nullable: true, description: 'milliseconds' })
+  returnedAt: Date | null;
 
   @Field(type => String, { nullable: true })
   description: string | null;
 
-  @Field(type => [Customer])
+  @Field(type => Customer)
   customer: Customer;
 }
