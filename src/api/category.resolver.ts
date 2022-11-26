@@ -11,7 +11,6 @@ import { CategoryUpdateInput } from './models/category-update.input';
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
   @Query(returns => [Category])
-  @UseGuards(GqlAdminAuthGuard)
   async categories(
     @Args('input')
     input: CategorySearchInput,

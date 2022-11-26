@@ -11,7 +11,6 @@ import { AuthorUpdateInput } from './models/author-update.input';
 export class AuthorResolver {
   constructor(private readonly authorService: AuthorService) {}
   @Query(returns => [Author])
-  @UseGuards(GqlAdminAuthGuard)
   async authors(
     @Args('input')
     input: AuthorSearchInput,
