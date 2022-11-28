@@ -16,14 +16,14 @@ export class FileController {
     private readonly fileService: FileService, // private readonly fileConfigService: FileConfigService,
   ) {}
 
-  @Post('/upload')
-  @UseGuards(JwtAuthAdminGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() upload: Express.Multer.File, @Request() req): Promise<any> {
-    const file = await this.fileService.httpSaveFile({
-      upload,
-      userId: req.user?.id,
-    });
-    return file;
-  }
+  // @Post('/upload')
+  // @UseGuards(JwtAuthAdminGuard)
+  // @UseInterceptors(FileInterceptor('file'))
+  // async uploadFile(@UploadedFile() upload: Express.Multer.File, @Request() req): Promise<any> {
+  //   // const file = await this.fileService.httpSaveFile({
+  //   //   upload,
+  //   //   userId: req.user?.id,
+  //   // });
+  //   // return file;
+  // }
 }

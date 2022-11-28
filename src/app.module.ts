@@ -19,9 +19,11 @@ const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      introspection: true,
+      playground: true,
       // Required playground: false for ApolloServerPluginLandingPageLocalDefault
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      // playground: false,
+      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     ...globalModules,
   ],
