@@ -1,0 +1,70 @@
+version: "3.7"
+services:
+  node:
+    container_name: goodgantt-node
+    restart: always
+    build: .
+    env_file:
+      - .env.production
+    volumes:
+      - "./logs:/app/logs"
+    labels:
+      - "traefik.http.routers.gg-api.rule=Host(`prod-api.goodgantt.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.gg-api.tls=true"
+      - "traefik.http.routers.gg-api.tls.certresolver=mytlschallenge"
+      #hsts
+      # - "traefik.http.routers.gg-api.middlewares=gg-api-header"
+      # - "traefik.http.middlewares.gg-api-header.headers.stsSeconds=15552000"
+      # - "traefik.http.middlewares.gg-api-header.headers.stsIncludeSubdomains=true"
+      # - "traefik.http.middlewares.gg-api-header.headers.stsPreload=true"
+      # - "traefik.http.middlewares.gg-api-header.headers.forceSTSHeader=true"
+      - "traefik.port=3000"
+    networks:
+      - internal
+      - good-gantt-pro
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    container_name: goodgantt-mysql
+    restart: always
+    env_file:
+      - .env.production
+    volumes:
+      - './.docker/mysql/dblogs:/var/log/mysql'
+      - './.docker/mysql/database:/var/lib/mysql'
+      # - './.docker/mysql/mysql_dump:/backup_sql'
+      # - './.docker/mysql/mysql_inject:/docker-entrypoint-initdb.d/:ro'
+    labels:
+      - traefik.enable=false
+    networks:
+      - internal
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+      - PMA_ABSOLUTE_URI=https://prod-api.goodgantt.com/pma/
+    labels:
+      - "traefik.http.routers.goodgantt-pma.rule=Host(`prod-api.goodgantt.com`) && PathPrefix(`/pma`)"
+      - "traefik.http.routers.goodgantt-pma.tls=true"
+      - "traefik.http.routers.goodgantt-pma.tls.certresolver=mytlschallenge"
+      - "traefik.port=80"
+      - "traefik.http.routers.goodgantt-pma.middlewares=pma-auth,pma-stripprefix"
+      - "traefik.http.middlewares.pma-auth.basicauth.users=support:$$apr1$$Yu8UkBar$$tsBwozymR61e6SFKvTePa/"
+      - "traefik.http.middlewares.pma-auth.basicauth.removeheader=true"
+      - "traefik.http.middlewares.pma-stripprefix.stripprefix.prefixes=/pma"
+      - "traefik.http.middlewares.pma-stripprefix.stripprefix.forceSlash=true"
+    networks:
+      - internal
+      - good-gantt-pro
+    depends_on:
+      - mysql
+networks:
+  good-gantt-pro:
+    external: true
+  internal:
+    external: false

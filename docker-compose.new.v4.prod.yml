@@ -1,6 +1,56 @@
-version: '3'
+version: '3.8'
 
 services:
+
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    links:
+      - db
+    #    volumes:
+    #      - ./tmp/logs/:/var/logs
+    container_name: nodejs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:3000 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    labels:
+      - "traefik.http.routers.gg-api.rule=Host(`api.gummersbach-library.net`)"
+      - "traefik.http.routers.gg-api.tls=true"
+      - "traefik.http.routers.gg-api.tls.certresolver=mytlschallenge"
+      - "traefik.port=3000"
+    networks:
+      - internal
+      - my-network
+    ports:
+      - "3000:3000"
+
+  # service name should be the same as in env.prod to allow prisma properly generate
+  db:
+    image: postgres:13
+    container_name: db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=librarian-db
+    volumes:
+      - ./tmp/db/:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready postgres://${PG_USER}:${PG_PASSWORD}@localhost:5432/librarian-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+      - my-network
+    ports:
+      - "5433:5432"
+
   traefik:
     image: traefik:2.8
     command:
@@ -14,14 +64,14 @@ services:
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       - "--certificatesresolvers.mytlschallenge.acme.email=isahara86@gmail.com"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
-      - "--metrics.prometheus=true"
-      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      #      - "--metrics.prometheus=true"
+      #      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
       - "--providers.docker=true"
       - "--providers.docker.watch"
     labels:
-#      - "traefik.http.routers.traefik.service=api@internal"
-#      - "traefik.http.routers.traefik.tls.certresolver=mytlschallenge"
-#      - "traefik.http.routers.traefik.entrypoints=https"
+      #      - "traefik.http.routers.traefik.service=api@internal"
+      #      - "traefik.http.routers.traefik.tls.certresolver=mytlschallenge"
+      #      - "traefik.http.routers.traefik.entrypoints=https"
       ###
       #      - "traefik.http.routers.traefik.middlewares=traefik"
       #      - "traefik.http.middlewares.traefik.basicauth.users=admin:$$apr1$$69ymx./1$$i3u8VP2hZdfiNqBIdddcy."
@@ -30,7 +80,6 @@ services:
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=http"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-
       #hsts
       # - "traefik.http.middlewares.hsts-header.headers.stsSeconds=15552000"
       # - "traefik.http.middlewares.hsts-header.headers.stsIncludeSubdomains=true"
@@ -44,11 +93,9 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./letsencrypt:/letsencrypt"
-    restart: unless-stopped
+    restart: on-failure
     networks:
-      - internal
       - my-network
-
 
 networks:
 
@@ -56,11 +103,3 @@ networks:
     external: true
   internal:
     external: false
-
-#    networks:
-#      - default
-#
-#networks:
-#  default:
-#    external:
-#      name: my-network
