@@ -13,7 +13,7 @@ export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
   @Query(returns => [Book])
-  async findBooks(@Args('input') input: BookSearchInput): Promise<Book[]> {
+  async books(@Args('input') input: BookSearchInput): Promise<Book[]> {
     return this.bookService.findBooks(input);
   }
 
