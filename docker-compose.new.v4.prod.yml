@@ -13,18 +13,15 @@ services:
     #      - ./tmp/logs/:/var/logs
     container_name: nodejs
     restart: unless-stopped
-#    healthcheck:
-#      test: ["CMD-SHELL", "curl -f localhost:3000 || exit 1"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:3000 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     labels:
       - "traefik.docker.network=my-network"
-#      - "traefik.http.routers.gg-api.tls=true"
       - "traefik.http.routers.gg-api.rule=Host(`api.gummersbach-library.net`)"
       - "traefik.port=3000"
-##      - "traefik.http.routers.http-catchall.entrypoints=http"
-##      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.enable=true"
       - "traefik.http.routers.gg-api.entrypoints=https"
       - "traefik.http.routers.gg-api.tls.certresolver=mytlschallenge"
@@ -44,11 +41,11 @@ services:
       - POSTGRES_DB=librarian-db
     volumes:
       - ./tmp/db/:/var/lib/postgresql/data
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready postgres://${PG_USER}:${PG_PASSWORD}@localhost:5432/librarian-db"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready postgres://${PG_USER}:${PG_PASSWORD}@localhost:5432/librarian-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - my-network
     ports:
@@ -62,34 +59,16 @@ services:
       - "--api.insecure=true"
       - "--api=true"
       - "--providers.docker=true"
-#      - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
-#      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       - "--certificatesresolvers.mytlschallenge.acme.email=isahara86@gmail.com"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
-      #      - "--metrics.prometheus=true"
-      #      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
       - "--providers.docker=true"
       - "--providers.docker.watch"
     labels:
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.tls.certresolver=mytlschallenge"
       - "traefik.http.routers.traefik.entrypoints=https"
-      ##
-      #      - "traefik.http.routers.traefik.middlewares=traefik"
-      #      - "traefik.http.middlewares.traefik.basicauth.users=admin:$$apr1$$69ymx./1$$i3u8VP2hZdfiNqBIdddcy."
-      ##
-#      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-#      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-#      - "traefik.http.routers.http-catchall.entrypoints=http"
-#      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      #hsts
-      # - "traefik.http.middlewares.hsts-header.headers.stsSeconds=15552000"
-      # - "traefik.http.middlewares.hsts-header.headers.stsIncludeSubdomains=true"
-      # - "traefik.http.middlewares.hsts-header.headers.stsPreload=true"
-      # - "traefik.http.middlewares.hsts-header.headers.forceSTSHeader=true"
-      # - "traefik.http.routers.catchall.middlewares=hsts-header"
     ports:
       - "80:80"
       - "443:443"
