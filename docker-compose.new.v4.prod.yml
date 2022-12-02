@@ -55,8 +55,8 @@ services:
     image: traefik:2.9
     command:
       - "--log.level=DEBUG"
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
+#      - "--api.dashboard=true"
+#      - "--api.insecure=true"
       - "--api=true"
       - "--providers.docker=true"
       - "--entrypoints.https.address=:443"
@@ -70,9 +70,9 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=mytlschallenge"
       - "traefik.http.routers.traefik.entrypoints=https"
     ports:
-      - "80:80"
+#      - "80:80"
       - "443:443"
-      - "8080:8080"
+#      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./letsencrypt:/letsencrypt"
