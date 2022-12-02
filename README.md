@@ -19,6 +19,3 @@ docker-compose -f /home/my-project/treafik/docker-compose.yml up -d
 
 # run all containers
 docker-compose -f /home/my-project/docker-compose.prod.yml up -d
-
-
-test
