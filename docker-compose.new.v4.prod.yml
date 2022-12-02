@@ -19,6 +19,7 @@ services:
 #      timeout: 5s
 #      retries: 5
     labels:
+      - "traefik.docker.network=my-network"
 #      - "traefik.http.routers.gg-api.tls=true"
       - "traefik.http.routers.gg-api.rule=Host(`api.gummersbach-library.net`)"
       - "traefik.port=3000"
@@ -28,7 +29,6 @@ services:
       - "traefik.http.routers.gg-api.entrypoints=https"
       - "traefik.http.routers.gg-api.tls.certresolver=mytlschallenge"
     networks:
-      - internal
       - my-network
     ports:
       - "3000:3000"
@@ -50,7 +50,6 @@ services:
 #      timeout: 5s
 #      retries: 5
     networks:
-      - internal
       - my-network
     ports:
       - "5433:5432"
@@ -106,5 +105,3 @@ networks:
 
   my-network:
     external: true
-  internal:
-    external: false
