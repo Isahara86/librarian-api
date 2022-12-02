@@ -81,8 +81,8 @@ services:
       #      - "traefik.http.routers.traefik.middlewares=traefik"
       #      - "traefik.http.middlewares.traefik.basicauth.users=admin:$$apr1$$69ymx./1$$i3u8VP2hZdfiNqBIdddcy."
       ##
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+#      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+#      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
 #      - "traefik.http.routers.http-catchall.entrypoints=http"
 #      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       #hsts
