@@ -19,11 +19,11 @@ services:
 #      timeout: 5s
 #      retries: 5
     labels:
-      - "traefik.http.routers.gg-api.tls=true"
+#      - "traefik.http.routers.gg-api.tls=true"
       - "traefik.http.routers.gg-api.rule=Host(`api.gummersbach-library.net`)"
       - "traefik.port=3000"
-#      - "traefik.http.routers.http-catchall.entrypoints=http"
-#      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+##      - "traefik.http.routers.http-catchall.entrypoints=http"
+##      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.enable=true"
       - "traefik.http.routers.gg-api.entrypoints=https"
       - "traefik.http.routers.gg-api.tls.certresolver=mytlschallenge"
@@ -56,17 +56,17 @@ services:
       - "5433:5432"
 
   traefik:
-    image: traefik:2.8
+    image: traefik:2.9
     command:
       - "--log.level=DEBUG"
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--api=true"
       - "--providers.docker=true"
-      - "--entrypoints.http.address=:80"
+#      - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
-      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web"
-#      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+#      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       - "--certificatesresolvers.mytlschallenge.acme.email=isahara86@gmail.com"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
       #      - "--metrics.prometheus=true"
