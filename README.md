@@ -10,6 +10,7 @@ docker compose -f docker-compose.traefik.prod.yml up --build --force-recreate --
 docker compose -f docker-compose.traefik.v2.prod.yml up --build --force-recreate --detach
 docker compose --env-file .env.docker-compose.prod -f docker-compose.new.v4.prod.yml up --build --force-recreate --detach
 
+docker exec -it 8bf06962c7bd bash
 
 # create docker network
 docker network create my-network
