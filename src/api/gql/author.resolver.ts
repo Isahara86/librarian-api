@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
+import { GqlAdminAuthGuard } from '../../modules/auth/gql-admin-auth.guard';
 import { Author } from './models/author.model';
-import { AuthorService } from '../modules/book/author.service';
+import { AuthorService } from '../../modules/book/author.service';
 import { AuthorSearchInput } from './inputs/author-search.input';
 import { AuthorCreateInput } from './inputs/author-create.input';
 import { AuthorUpdateInput } from './inputs/author-update.input';

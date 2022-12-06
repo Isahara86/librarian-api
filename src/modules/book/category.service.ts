@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
 import { Category } from '@prisma/client';
-import { CategoryUpdateInput } from '../../api/inputs/category-update.input';
-import { CategorySearchInput } from '../../api/inputs/category-search.input';
+import { CategoryUpdateInput } from '../../api/gql/inputs/category-update.input';
+import { CategorySearchInput } from '../../api/gql/inputs/category-search.input';
 
 @Injectable()
 export class CategoryService {

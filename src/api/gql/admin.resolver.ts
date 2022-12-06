@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { Admin } from './models/admin.model';
 import { AdminLoginResponse } from './models/admin-login-response.model';
-import { AuthService } from '../modules/auth/auth.service';
+import { AuthService } from '../../modules/auth/auth.service';
 import { AdminLoginInput } from './inputs/admin-login.input';
 
 @Resolver(of => Admin)

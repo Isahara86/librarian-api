@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
+import { GqlAdminAuthGuard } from '../../modules/auth/gql-admin-auth.guard';
 import { Category } from './models/category.model';
-import { CategoryService } from '../modules/book/category.service';
+import { CategoryService } from '../../modules/book/category.service';
 import { CategorySearchInput } from './inputs/category-search.input';
 import { CategoryCreateInput } from './inputs/category-create.input';
 import { CategoryUpdateInput } from './inputs/category-update.input';

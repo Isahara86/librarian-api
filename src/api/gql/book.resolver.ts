@@ -1,9 +1,9 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book } from './models/book.model';
-import { BookService } from '../modules/book/book.service';
+import { BookService } from '../../modules/book/book.service';
 import { BookSearchInput } from './inputs/book-search.input';
 import { UseGuards } from '@nestjs/common';
-import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
+import { GqlAdminAuthGuard } from '../../modules/auth/gql-admin-auth.guard';
 import { BookCreateInput } from './inputs/book-create.input';
 import { BookUpdateInput } from './inputs/book-update.input';
 import { BookDetails } from './models/book-details.model';

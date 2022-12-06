@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { GqlAdminAuthGuard } from '../modules/auth/gql-admin-auth.guard';
-import { BookInventoryReservationService } from '../modules/book/book-inventory-reservation.service';
+import { GqlAdminAuthGuard } from '../../modules/auth/gql-admin-auth.guard';
+import { BookInventoryReservationService } from '../../modules/book/book-inventory-reservation.service';
 import { BookInventoryReservationSearchInput } from './inputs/book-inventory-reservation-search.input';
 import { BookInventoryReservationCreateInput } from './inputs/book-inventory-reservation-create.input';
 import { BookInventoryReservationUpdateInput } from './inputs/book-inventory-reservation-update.input';

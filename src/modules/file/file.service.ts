@@ -9,7 +9,7 @@ import {
 } from '../../environment';
 import * as mimeDB from 'mime-db';
 import * as uuid from 'uuid';
-import { FileUpload } from '../../api/dto/file-upload.interface';
+import { FileUpload } from '../../api/gql/dto/file-upload.interface';
 
 @Injectable()
 export class FileService {

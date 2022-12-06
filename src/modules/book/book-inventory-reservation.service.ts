@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
-import { BookInventoryReservationSearchInput } from '../../api/inputs/book-inventory-reservation-search.input';
-import { BookInventoryReservationCreateInput } from '../../api/inputs/book-inventory-reservation-create.input';
-import { BookInventoryReservationUpdateInput } from '../../api/inputs/book-inventory-reservation-update.input';
-import { BookInventoryReservation } from '../../api/models/book-inventory-reservation.model';
-import { CustomerDetailsReservation } from '../../api/models/customer-details-reservation.model';
-import { CustomerReservationsSearchInput } from '../../api/inputs/customer-reservations-search.input';
+import { BookInventoryReservationSearchInput } from '../../api/gql/inputs/book-inventory-reservation-search.input';
+import { BookInventoryReservationCreateInput } from '../../api/gql/inputs/book-inventory-reservation-create.input';
+import { BookInventoryReservationUpdateInput } from '../../api/gql/inputs/book-inventory-reservation-update.input';
+import { BookInventoryReservation } from '../../api/gql/models/book-inventory-reservation.model';
+import { CustomerDetailsReservation } from '../../api/gql/models/customer-details-reservation.model';
+import { CustomerReservationsSearchInput } from '../../api/gql/inputs/customer-reservations-search.input';
 
 @Injectable()
 export class BookInventoryReservationService {

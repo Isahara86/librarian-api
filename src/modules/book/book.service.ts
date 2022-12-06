@@ -1,15 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { BookSearchInput } from '../../api/inputs/book-search.input';
-import { Book } from '../../api/models/book.model';
+import { BookSearchInput } from '../../api/gql/inputs/book-search.input';
+import { Book } from '../../api/gql/models/book.model';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
-import { BookCreateInput } from '../../api/inputs/book-create.input';
-import { BookUpdateInput } from '../../api/inputs/book-update.input';
-import { BookInventoryUpdateInput } from '../../api/inputs/book-inventory-update.input';
-import { BookInventoryCreateInput } from '../../api/inputs/book-inventory-create.input';
-import { BookDetails } from '../../api/models/book-details.model';
+import { BookCreateInput } from '../../api/gql/inputs/book-create.input';
+import { BookUpdateInput } from '../../api/gql/inputs/book-update.input';
+import { BookInventoryUpdateInput } from '../../api/gql/inputs/book-inventory-update.input';
+import { BookInventoryCreateInput } from '../../api/gql/inputs/book-inventory-create.input';
+import { BookDetails } from '../../api/gql/models/book-details.model';
 import { FileService } from '../file/file.service';
-import { FileUpload } from '../../api/dto/file-upload.interface';
+import { FileUpload } from '../../api/gql/dto/file-upload.interface';
 
 @Injectable()
 export class BookService {

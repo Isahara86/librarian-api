@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma } from '@prisma/client';
 import { Customer } from '@prisma/client';
-import { CustomerUpdateInput } from '../../api/inputs/customer-update.input';
-import { CustomersSearchInput } from '../../api/inputs/customers-search.input';
-import { CustomerDetails } from '../../api/models/customer-details.model';
+import { CustomerUpdateInput } from '../../api/gql/inputs/customer-update.input';
+import { CustomersSearchInput } from '../../api/gql/inputs/customers-search.input';
+import { CustomerDetails } from '../../api/gql/models/customer-details.model';
 
 @Injectable()
 export class CustomerService {

@@ -7,8 +7,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService } from '../modules/file/file.service';
-import { JwtAuthAdminGuard } from '../modules/auth/jwt-auth-admin.guard';
+import { FileService } from '../../modules/file/file.service';
+import { JwtAuthAdminGuard } from '../../modules/auth/jwt-auth-admin.guard';
 
 @Controller('file')
 export class FileController {

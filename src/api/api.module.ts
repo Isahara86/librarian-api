@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AuthorResolver } from './author.resolver';
-import { CategoryResolver } from './category.resolver';
-import { BookResolver } from './book.resolver';
-import { CustomerResolver } from './customer.resolver';
-import { AdminResolver } from './admin.resolver';
-import { BookInventoryReservationResolver } from './book-inventory-reservation.resolver';
-import { FileController } from './file.controller';
+import { AppController } from './http/app.controller';
+import { AuthorResolver } from './gql/author.resolver';
+import { CategoryResolver } from './gql/category.resolver';
+import { BookResolver } from './gql/book.resolver';
+import { CustomerResolver } from './gql/customer.resolver';
+import { AdminResolver } from './gql/admin.resolver';
+import { BookInventoryReservationResolver } from './gql/book-inventory-reservation.resolver';
+import { FileController } from './http/file.controller';
 
 @Module({
   controllers: [AppController, FileController],

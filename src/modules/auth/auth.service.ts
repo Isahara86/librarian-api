@@ -3,10 +3,10 @@ import { CustomerService } from '../user/customer.service';
 import { JwtService } from '@nestjs/jwt';
 import { JWT_ADMIN_SECRET } from '../../environment';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
-import { AdminLoginInput } from '../../api/inputs/admin-login.input';
+import { AdminLoginInput } from '../../api/gql/inputs/admin-login.input';
 import { AdminService } from '../user/admin.service';
 import * as bcrypt from 'bcrypt';
-import { AdminLoginResponse } from '../../api/models/admin-login-response.model';
+import { AdminLoginResponse } from '../../api/gql/models/admin-login-response.model';
 
 @Injectable()
 export class AuthService {
