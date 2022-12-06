@@ -119,7 +119,7 @@ type AdminLoginResponse {
 type Query {
   authors(input: AuthorSearchInput!): [Author!]!
   categories(input: CategorySearchInput!): [Category!]!
-  findBooks(input: BookSearchInput!): [Book!]!
+  books(input: BookSearchInput!): [Book!]!
   bookDetails(id: Int!): BookDetails!
   customerDetails(id: Int!): [CustomerDetails!]!
   customers(input: CustomersSearchInput!): [Customer!]!
