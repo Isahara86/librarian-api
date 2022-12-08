@@ -58,8 +58,8 @@ export class FileService {
     };
     const s3Response = await this.s3.upload(uploadParams).promise();
 
-    console.log(JSON.stringify(s3Response, null, 2));
-    console.log(IMAGE_DISTRIBUTION_DOMAIN + '/' + Key);
+    // console.log(JSON.stringify(s3Response, null, 2));
+    // console.log(IMAGE_DISTRIBUTION_DOMAIN + '/' + Key);
 
     // const file = await this.db.file.create({
     //   data: {
@@ -93,8 +93,8 @@ export class FileService {
     };
     const s3Response = await this.s3.upload(uploadParams).promise();
 
-    console.log(JSON.stringify(s3Response, null, 2));
-    console.log(IMAGE_DISTRIBUTION_DOMAIN + '/' + Key);
+    // console.log(JSON.stringify(s3Response, null, 2));
+    // console.log(IMAGE_DISTRIBUTION_DOMAIN + '/' + Key);
 
     return IMAGE_DISTRIBUTION_DOMAIN + '/' + Key;
   }
