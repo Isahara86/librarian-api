@@ -36,6 +36,7 @@ model Book {
   inventories    BookInventory[]
   bookAuthors    BookAuthor[]
   bookCategories BookCategory[]
+  bookLanguages  BookLanguage[]
 }
 
 model Author {
@@ -89,4 +90,20 @@ model BookCategory {
   category   Category @relation(fields: [categoryId], references: [id])
 
   @@unique([bookId, categoryId])
+}
+
+model BookLanguage {
+  bookId   Int
+  book     Book     @relation(fields: [bookId], references: [id])
+  code     String
+  language Language @relation(fields: [code], references: [code])
+
+  @@unique([bookId, code])
+}
+
+model Language {
+  code         String         @id
+  name         String
+  nativeName   String
+  BookLanguage BookLanguage[]
 }

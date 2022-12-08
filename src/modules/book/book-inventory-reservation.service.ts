@@ -36,6 +36,11 @@ export class BookInventoryReservationService {
                     },
                   },
                 },
+                bookLanguages: {
+                  include: {
+                    language: true,
+                  },
+                },
               },
             },
           },
@@ -84,6 +89,7 @@ export class BookInventoryReservationService {
                 : null,
             }),
           ),
+          languages: h.bookInventory.book.bookLanguages.map(bl => bl.language),
           isAvailable: h.bookInventory.book.inventories.some(inv => !inv.deletedAt),
         },
       },

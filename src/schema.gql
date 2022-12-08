@@ -12,6 +12,12 @@ type Category {
   name: String!
 }
 
+type Language {
+  code: String!
+  name: String!
+  nativeName: String!
+}
+
 type Book {
   id: Int!
   name: String!
@@ -19,6 +25,7 @@ type Book {
   previewUrl: String
   categories: [Category!]!
   authors: [Author!]!
+  languages: [Language!]!
   isAvailable: Boolean!
 }
 
@@ -70,8 +77,9 @@ type BookDetails {
   previewUrl: String
   categories: [Category!]!
   authors: [Author!]!
-  inventories: [BookInventoryDetails!]!
+  languages: [Language!]!
   isAvailable: Boolean!
+  inventories: [BookInventoryDetails!]!
 }
 
 type BookInventory {
@@ -125,6 +133,7 @@ type Query {
   customers(input: CustomersSearchInput!): [Customer!]!
   customerReservationHistory(input: CustomerReservationsSearchInput!): [CustomerDetailsReservation!]!
   bookReservationHistory(input: BookInventoryReservationSearchInput!): [BookInventoryReservation!]!
+  languages: [Language!]!
 }
 
 input AuthorSearchInput {
@@ -208,6 +217,7 @@ input BookCreateInput {
   preview: Upload
   categoryIds: [Int!]!
   authorIds: [Int!]!
+  languages: [String!]!
   inventories: [BookInventoryCreateInput!]!
 }
 
@@ -226,6 +236,7 @@ input BookUpdateInput {
   preview: Upload
   categoryIds: [Int!]!
   authorIds: [Int!]!
+  languages: [String!]!
   id: Int!
   updatedInventories: [BookInventoryUpdateInput!]!
   newInventories: [BookInventoryCreateInput!]!

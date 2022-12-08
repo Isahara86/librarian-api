@@ -34,6 +34,11 @@ export class CustomerService {
                         },
                       },
                     },
+                    bookLanguages: {
+                      include: {
+                        language: true,
+                      },
+                    },
                   },
                 },
               },
@@ -89,6 +94,7 @@ export class CustomerService {
                   : null,
               }),
             ),
+            languages: h.bookInventory.book.bookLanguages.map(bl => bl.language),
             isAvailable: h.bookInventory.book.inventories.some(inv => !inv.deletedAt),
           },
         },

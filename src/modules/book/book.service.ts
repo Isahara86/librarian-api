@@ -52,9 +52,15 @@ export class BookService {
             },
           },
         },
+        bookLanguages: {
+          include: {
+            language: true,
+          },
+        },
       },
       skip: offset,
       take: limit,
+      orderBy: { id: 'desc' },
     });
 
     return books.map(b => {
@@ -69,6 +75,7 @@ export class BookService {
         authors: b.bookAuthors.map(bc => bc.author),
         description: b.description,
         previewUrl: b.previewUrl,
+        languages: b.bookLanguages.map(bl => bl.language),
         isAvailable,
       };
     });
@@ -89,6 +96,11 @@ export class BookService {
         bookAuthors: { include: { author: true } },
         bookCategories: { include: { category: true } },
         inventories: true,
+        bookLanguages: {
+          include: {
+            language: true,
+          },
+        },
       },
       data: {
         name,
@@ -113,6 +125,7 @@ export class BookService {
       previewUrl,
       categories: book.bookCategories.map(bc => bc.category),
       authors: book.bookAuthors.map(bc => bc.author),
+      languages: book.bookLanguages.map(bl => bl.language),
       isAvailable: inventories.length > 0,
     };
   }
@@ -132,6 +145,11 @@ export class BookService {
                 customer: true,
               },
             },
+          },
+        },
+        bookLanguages: {
+          include: {
+            language: true,
           },
         },
       },
@@ -166,6 +184,7 @@ export class BookService {
             : null,
         }),
       ),
+      languages: book.bookLanguages.map(bl => bl.language),
       isAvailable: book.inventories.some(inv => !inv.deletedAt),
     };
   }

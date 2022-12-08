@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Category } from './category.model';
 import { Author } from './author.model';
+import { Language } from './language.model';
 
 @ObjectType()
 export class Book {
@@ -21,6 +22,9 @@ export class Book {
 
   @Field(type => [Author])
   authors: Author[];
+
+  @Field(type => [Language])
+  languages: Language[];
 
   @Field()
   isAvailable: boolean;
