@@ -124,6 +124,10 @@ type AdminLoginResponse {
   token: String!
 }
 
+type SuccessModel {
+  success: Boolean!
+}
+
 type Query {
   authors(input: AuthorSearchInput!): [Author!]!
   categories(input: CategorySearchInput!): [Category!]!
@@ -187,6 +191,7 @@ type Mutation {
   createCustomer(input: CustomerCreateInput!): Customer!
   updateCustomer(input: CustomerUpdateInput!): Customer!
   adminLogin(input: AdminLoginInput!): AdminLoginResponse!
+  inviteAdmin(input: AdminInviteInput!): SuccessModel!
   createBookReservation(input: BookInventoryReservationCreateInput!): BookInventoryReservation!
   updateBookReservation(input: BookInventoryReservationUpdateInput!): BookInventoryReservation!
 }
@@ -264,6 +269,12 @@ input CustomerUpdateInput {
 }
 
 input AdminLoginInput {
+  login: String!
+  password: String!
+}
+
+input AdminInviteInput {
+  name: String!
   login: String!
   password: String!
 }
