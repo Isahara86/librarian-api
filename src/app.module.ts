@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BookModule } from './modules/book/book.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApiModule } from './api/api.module';
+import { TwoFactorAuthService } from './modules/auth/auth-2fa-.service';
 
 const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule];
 
@@ -27,7 +28,7 @@ const globalModules = [FileModule, UserModule, AuthModule, BookModule, ApiModule
     }),
     ...globalModules,
   ],
-  providers: [PrismaService, AppService],
+  providers: [PrismaService, AppService, TwoFactorAuthService],
   exports: [...globalModules, PrismaService, AppService],
 })
 export class AppModule {}

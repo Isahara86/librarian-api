@@ -19,3 +19,5 @@ export const IMAGE_DISTRIBUTION_DOMAIN = process.env.IMAGE_DISTRIBUTION_DOMAIN;
 
 export const JWT_SECRET = process.env.JWT_SECRET || 'jwtSecret';
 export const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_SECRET || 'jwtAdminSecret';
+
+export const TWO_FACTOR_AUTHENTICATION_APP_NAME = 'gummersbach-library';

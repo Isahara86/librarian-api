@@ -250,7 +250,7 @@ input BookUpdateInput {
 input BookInventoryUpdateInput {
   id: Int!
   serialNumber: String!
-  deleteReason: String!
+  deleteReason: String
 }
 
 input CustomerCreateInput {
