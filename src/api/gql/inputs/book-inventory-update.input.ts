@@ -12,7 +12,7 @@ export class BookInventoryUpdateInput {
   @MinLength(3)
   serialNumber: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
   @MinLength(3)
