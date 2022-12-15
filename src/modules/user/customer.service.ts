@@ -110,8 +110,8 @@ export class CustomerService {
     return this.db.customer.create({ data });
   }
 
-  update({ email, id, name }: CustomerUpdateInput): Promise<Customer> {
-    return this.db.customer.update({ data: { email, name }, where: { id } });
+  update({ email, id, name, description, phone }: CustomerUpdateInput): Promise<Customer> {
+    return this.db.customer.update({ data: { email, name, description, phone }, where: { id } });
   }
 
   async findCustomers({ offset, limit, query }: CustomersSearchInput): Promise<Customer[]> {
