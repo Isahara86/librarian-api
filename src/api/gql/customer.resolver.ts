@@ -12,7 +12,7 @@ import { CustomerDetails } from './models/customer-details.model';
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
 
-  @Query(returns => [CustomerDetails])
+  @Query(returns => CustomerDetails)
   @UseGuards(GqlAdminAuthGuard)
   async customerDetails(@Args('id', { type: () => Int }) id: number): Promise<CustomerDetails> {
     return this.customerService.getCustomerDetails(id);

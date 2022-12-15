@@ -1,4 +1,4 @@
-export class ContextCustomerDto {
+export interface ContextCustomerDto {
   id: number;
   name: string;
 }

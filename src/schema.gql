@@ -133,7 +133,7 @@ type Query {
   categories(input: CategorySearchInput!): [Category!]!
   books(input: BookSearchInput!): [Book!]!
   bookDetails(id: Int!): BookDetails!
-  customerDetails(id: Int!): [CustomerDetails!]!
+  customerDetails(id: Int!): CustomerDetails!
   customers(input: CustomersSearchInput!): [Customer!]!
   customerReservationHistory(input: CustomerReservationsSearchInput!): [CustomerDetailsReservation!]!
   bookReservationHistory(input: BookInventoryReservationSearchInput!): [BookInventoryReservation!]!
@@ -250,7 +250,7 @@ input BookUpdateInput {
 input BookInventoryUpdateInput {
   id: Int!
   serialNumber: String!
-  deleteReason: String!
+  deleteReason: String
 }
 
 input CustomerCreateInput {

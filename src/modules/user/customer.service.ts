@@ -120,6 +120,7 @@ export class CustomerService {
       where.OR = [
         { name: { contains: query, mode: 'insensitive' } },
         { email: { contains: query, mode: 'insensitive' } },
+        { phone: { contains: query, mode: 'insensitive' } },
       ];
     }
 
