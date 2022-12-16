@@ -87,6 +87,7 @@ export class BookService {
     preview,
     categoryIds,
     authorIds,
+    languages,
     inventories,
   }: BookCreateInput): Promise<Book> {
     const previewUrl = preview ? await this.fileService.gqlSaveFile(preview) : null;
@@ -114,6 +115,9 @@ export class BookService {
         },
         inventories: {
           create: inventories.map(({ serialNumber }) => ({ serialNumber })),
+        },
+        bookLanguages: {
+          create: languages.map(code => ({ code })),
         },
       },
     });
@@ -198,10 +202,12 @@ export class BookService {
     authorIds,
     updatedInventories,
     newInventories,
+    languages,
   }: BookUpdateInput): Promise<BookDetails> {
     await this.db.$transaction(async transaction => {
       await this.updateBookInfo({ name, description, preview }, id, transaction);
       await this.updateBookCategories(categoryIds, id, transaction);
+      await this.updateBookLanguages(languages, id, transaction);
       await this.updateBookAuthors(authorIds, id, transaction);
       await this.updateBookInventories(updatedInventories, id, transaction);
       await this.addBookInventories(newInventories, id, transaction);
@@ -255,6 +261,17 @@ export class BookService {
     await transaction.bookCategory.deleteMany({ where: { bookId } });
     await transaction.bookCategory.createMany({
       data: categoryIds.map(categoryId => ({ categoryId, bookId })),
+    });
+  }
+
+  private async updateBookLanguages(
+    codes: string[],
+    bookId: number,
+    transaction: Prisma.TransactionClient,
+  ): Promise<void> {
+    await transaction.bookLanguage.deleteMany({ where: { bookId } });
+    await transaction.bookLanguage.createMany({
+      data: codes.map(code => ({ code, bookId })),
     });
   }
 
