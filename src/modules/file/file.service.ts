@@ -105,15 +105,27 @@ export class FileService {
     const origExtension = mimeDB[mimetype]?.extensions[0] || 'jpg';
 
     const origBuffer = await this.streamToBuffer(fileStream);
-    const jpegBuffer = await sharp(origBuffer).jpeg({ progressive: true, force: false }).toBuffer();
-    const webpBuffer = await sharp(origBuffer).webp().toBuffer();
+    const jpegBuffer = await sharp(origBuffer)
+      .rotate()
+      .jpeg({ progressive: true, force: false })
+      .withMetadata()
+      .toBuffer();
+    const webpBuffer = await sharp(origBuffer)
+      .rotate() //
+      .webp()
+      .withMetadata()
+      .toBuffer();
     const jpegThumbnailBuffer = await sharp(origBuffer)
+      .rotate()
       .resize(200)
       .jpeg({ progressive: true, force: false })
+      .withMetadata()
       .toBuffer();
     const webpThumbnailBuffer = await sharp(origBuffer)
+      .rotate()
       .resize(200)
       .webp({ quality: 70 })
+      .withMetadata()
       .toBuffer();
 
     const keyPrefix = 'img/' + uuid.v1();
