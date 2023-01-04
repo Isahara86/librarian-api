@@ -22,7 +22,11 @@ type Book {
   id: Int!
   name: String!
   description: String
-  previewUrl: String
+  previewOrig: String
+  previewJpeg: String
+  previewWebp: String
+  previewJpegThumbnail: String
+  previewWebpThumbnail: String
   categories: [Category!]!
   authors: [Author!]!
   languages: [Language!]!
@@ -74,7 +78,11 @@ type BookDetails {
   id: Int!
   name: String!
   description: String
-  previewUrl: String
+  previewOrig: String
+  previewJpeg: String
+  previewWebp: String
+  previewJpegThumbnail: String
+  previewWebpThumbnail: String
   categories: [Category!]!
   authors: [Author!]!
   languages: [Language!]!

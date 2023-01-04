@@ -10,6 +10,9 @@ import {
 import * as mimeDB from 'mime-db';
 import * as uuid from 'uuid';
 import { FileUpload } from '../../api/gql/dto/file-upload.interface';
+import * as sharp from 'sharp';
+import { Buffer } from 'buffer';
+import { ImageVariantsInterface } from './image-variants.interface';
 
 @Injectable()
 export class FileService {
@@ -41,7 +44,7 @@ export class FileService {
     this.IMAGE_S3_BUCKET_NAME = IMAGE_S3_BUCKET_NAME;
   }
 
-  public async httpSaveFile({ upload }: any): Promise<any> {
+  public async httpSaveImage({ upload }: any): Promise<any> {
     const mimeType = upload.mimetype;
 
     // TODO validate images only
@@ -75,27 +78,102 @@ export class FileService {
     // return { id: file.id, url: file.url, thumbnail: file.thumbnail };
   }
 
-  public async gqlSaveFile(upload: Promise<FileUpload>): Promise<string> {
+  private async streamToBuffer(stream): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      const data: any[] = [];
+
+      stream.on('data', (chunk: any) => {
+        data.push(chunk);
+      });
+
+      stream.on('end', () => {
+        resolve(Buffer.concat(data));
+      });
+
+      stream.on('error', err => {
+        reject(err);
+      });
+    });
+  }
+
+  public async gqlSaveImage(upload: Promise<FileUpload>): Promise<ImageVariantsInterface> {
     const { createReadStream, filename, mimetype } = await upload;
     const fileStream = createReadStream();
 
     // TODO validate images only
     // TODO validate max image size
-    const extension = mimeDB[mimetype]?.extensions[0] || 'jpg';
+    const origExtension = mimeDB[mimetype]?.extensions[0] || 'jpg';
 
-    const Key = 'img/' + uuid.v1() + '.' + extension;
+    const origBuffer = await this.streamToBuffer(fileStream);
+    const jpegBuffer = await sharp(origBuffer).jpeg({ progressive: true, force: false }).toBuffer();
+    const webpBuffer = await sharp(origBuffer).webp().toBuffer();
+    const jpegThumbnailBuffer = await sharp(origBuffer)
+      .resize(200)
+      .jpeg({ progressive: true, force: false })
+      .toBuffer();
+    const webpThumbnailBuffer = await sharp(origBuffer)
+      .resize(200)
+      .webp({ quality: 70 })
+      .toBuffer();
 
-    const uploadParams: S3.PutObjectRequest = {
-      Bucket: this.IMAGE_S3_BUCKET_NAME,
-      Key,
-      Body: fileStream,
-      ContentType: mimetype,
+    const keyPrefix = 'img/' + uuid.v1();
+    const origKey = keyPrefix + '.' + origExtension;
+    const jpegKey = keyPrefix + '-optimized-full-size.jpeg';
+    const webpKey = keyPrefix + '-full-size.webp';
+    const jpegThumbnailKey = keyPrefix + '-preview.jpeg';
+    const webpThumbnailKey = keyPrefix + '-preview.webp';
+
+    await Promise.all([
+      this.s3
+        .upload({
+          Bucket: this.IMAGE_S3_BUCKET_NAME,
+          Key: origKey,
+          Body: origBuffer,
+          ContentType: mimetype,
+        })
+        .promise(),
+      this.s3
+        .upload({
+          Bucket: this.IMAGE_S3_BUCKET_NAME,
+          Key: jpegKey,
+          Body: jpegBuffer,
+          ContentType: 'image/jpeg',
+        })
+        .promise(),
+      this.s3
+        .upload({
+          Bucket: this.IMAGE_S3_BUCKET_NAME,
+          Key: webpKey,
+          Body: webpBuffer,
+          ContentType: 'image/webp',
+        })
+        .promise(),
+      this.s3
+        .upload({
+          Bucket: this.IMAGE_S3_BUCKET_NAME,
+          Key: jpegThumbnailKey,
+          Body: jpegThumbnailBuffer,
+          ContentType: 'image/jpeg',
+        })
+        .promise(),
+      this.s3
+        .upload({
+          Bucket: this.IMAGE_S3_BUCKET_NAME,
+          Key: webpThumbnailKey,
+          Body: webpThumbnailBuffer,
+          ContentType: 'image/webp',
+        })
+        .promise(),
+    ]);
+
+    const urlPrefix = IMAGE_DISTRIBUTION_DOMAIN + '/';
+
+    return {
+      previewOrig: urlPrefix + origKey,
+      previewJpeg: urlPrefix + jpegKey,
+      previewWebp: urlPrefix + webpKey,
+      previewJpegThumbnail: urlPrefix + jpegThumbnailKey,
+      previewWebpThumbnail: urlPrefix + webpThumbnailKey,
     };
-    const s3Response = await this.s3.upload(uploadParams).promise();
-
-    // console.log(JSON.stringify(s3Response, null, 2));
-    // console.log(IMAGE_DISTRIBUTION_DOMAIN + '/' + Key);
-
-    return IMAGE_DISTRIBUTION_DOMAIN + '/' + Key;
   }
 }

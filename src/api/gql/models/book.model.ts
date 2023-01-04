@@ -15,7 +15,15 @@ export class Book {
   description: string | null | undefined;
 
   @Field(type => String, { nullable: true })
-  previewUrl: string | null | undefined;
+  previewOrig: string | null | undefined;
+  @Field(type => String, { nullable: true })
+  previewJpeg: string | null | undefined;
+  @Field(type => String, { nullable: true })
+  previewWebp: string | null | undefined;
+  @Field(type => String, { nullable: true })
+  previewJpegThumbnail: string | null | undefined;
+  @Field(type => String, { nullable: true })
+  previewWebpThumbnail: string | null | undefined;
 
   @Field(type => [Category])
   categories: Category[];

@@ -29,14 +29,18 @@ model Admin {
 }
 
 model Book {
-  id             Int             @id @default(autoincrement())
-  name           String
-  previewUrl     String?
-  description    String?
-  inventories    BookInventory[]
-  bookAuthors    BookAuthor[]
-  bookCategories BookCategory[]
-  bookLanguages  BookLanguage[]
+  id                   Int             @id @default(autoincrement())
+  name                 String
+  previewOrig          String?
+  previewJpeg          String?
+  previewWebp          String?
+  previewJpegThumbnail String?
+  previewWebpThumbnail String?
+  description          String?
+  inventories          BookInventory[]
+  bookAuthors          BookAuthor[]
+  bookCategories       BookCategory[]
+  bookLanguages        BookLanguage[]
 }
 
 model Author {

@@ -73,7 +73,11 @@ export class CustomerService {
             id: h.bookInventory.book.id,
             name: h.bookInventory.book.name,
             description: h.bookInventory.book.description,
-            previewUrl: h.bookInventory.book.previewUrl,
+            previewOrig: h.bookInventory.book.previewOrig,
+            previewJpeg: h.bookInventory.book.previewJpeg,
+            previewWebp: h.bookInventory.book.previewJpeg,
+            previewJpegThumbnail: h.bookInventory.book.previewJpegThumbnail,
+            previewWebpThumbnail: h.bookInventory.book.previewWebpThumbnail,
             categories: h.bookInventory.book.bookCategories.map(bc => bc.category),
             authors: h.bookInventory.book.bookAuthors.map(bc => bc.author),
             inventories: h.bookInventory.book.inventories.map(

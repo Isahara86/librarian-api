@@ -10,6 +10,7 @@ import { BookInventoryCreateInput } from '../../api/gql/inputs/book-inventory-cr
 import { BookDetails } from '../../api/gql/models/book-details.model';
 import { FileService } from '../file/file.service';
 import { FileUpload } from '../../api/gql/dto/file-upload.interface';
+import { ImageVariantsInterface } from '../file/image-variants.interface';
 
 @Injectable()
 export class BookService {
@@ -74,7 +75,11 @@ export class BookService {
         categories: b.bookCategories.map(bc => bc.category),
         authors: b.bookAuthors.map(bc => bc.author),
         description: b.description,
-        previewUrl: b.previewUrl,
+        previewOrig: b.previewOrig,
+        previewJpeg: b.previewJpeg,
+        previewWebp: b.previewJpeg,
+        previewJpegThumbnail: b.previewJpegThumbnail,
+        previewWebpThumbnail: b.previewWebpThumbnail,
         languages: b.bookLanguages.map(bl => bl.language),
         isAvailable,
       };
@@ -90,7 +95,7 @@ export class BookService {
     languages,
     inventories,
   }: BookCreateInput): Promise<Book> {
-    const previewUrl = preview ? await this.fileService.gqlSaveFile(preview) : null;
+    const previewVariants = preview ? await this.fileService.gqlSaveImage(preview) : null;
 
     const book = await this.db.book.create({
       include: {
@@ -106,7 +111,7 @@ export class BookService {
       data: {
         name,
         description,
-        previewUrl,
+        ...previewVariants,
         bookCategories: {
           create: categoryIds.map(categoryId => ({ categoryId })),
         },
@@ -126,7 +131,11 @@ export class BookService {
       id: book.id,
       name,
       description,
-      previewUrl,
+      previewOrig: book.previewOrig,
+      previewJpeg: book.previewJpeg,
+      previewWebp: book.previewJpeg,
+      previewJpegThumbnail: book.previewJpegThumbnail,
+      previewWebpThumbnail: book.previewWebpThumbnail,
       categories: book.bookCategories.map(bc => bc.category),
       authors: book.bookAuthors.map(bc => bc.author),
       languages: book.bookLanguages.map(bl => bl.language),
@@ -167,7 +176,11 @@ export class BookService {
       id: book.id,
       name: book.name,
       description: book.description,
-      previewUrl: book.previewUrl,
+      previewOrig: book.previewOrig,
+      previewJpeg: book.previewJpeg,
+      previewWebp: book.previewJpeg,
+      previewJpegThumbnail: book.previewJpegThumbnail,
+      previewWebpThumbnail: book.previewWebpThumbnail,
       categories: book.bookCategories.map(bc => bc.category),
       authors: book.bookAuthors.map(bc => bc.author),
       inventories: book.inventories.map(
@@ -299,12 +312,9 @@ export class BookService {
     bookId: number,
     transaction: Prisma.TransactionClient,
   ): Promise<void> {
-    let previewUrl: string | null | undefined;
+    let previewVariants: ImageVariantsInterface | null | undefined;
     if (preview) {
-      previewUrl = await this.fileService.gqlSaveFile(preview);
-    } else {
-      const book = await transaction.book.findFirst({ where: { id: bookId } });
-      previewUrl = book?.previewUrl;
+      previewVariants = await this.fileService.gqlSaveImage(preview);
     }
 
     await transaction.book.update({
@@ -312,7 +322,7 @@ export class BookService {
       data: {
         name,
         description,
-        previewUrl,
+        ...(preview && previewVariants),
       },
     });
   }
