@@ -6,5 +6,4 @@ import { Book } from './book.model';
 export class BookDetails extends Book {
   @Field(type => [BookInventoryDetails])
   inventories: BookInventoryDetails[];
-
 }

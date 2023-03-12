@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class CustomerCreateInput {
@@ -9,7 +9,7 @@ export class CustomerCreateInput {
   name: string;
 
   @Field({ nullable: true })
-  @IsEmail()
+  @IsString()
   @IsOptional()
   email?: string;
 

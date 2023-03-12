@@ -18,7 +18,7 @@ export class BookResolver {
   }
 
   @Query(returns => BookDetails)
-  @UseGuards(GqlAdminAuthGuard)
+  // @UseGuards(GqlAdminAuthGuard)
   async bookDetails(@Args('id', { type: () => Int }) id: number): Promise<BookDetails> {
     return this.bookService.getBookDetails(id);
   }
